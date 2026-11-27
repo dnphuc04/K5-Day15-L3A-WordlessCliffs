@@ -83,8 +83,8 @@ flowchart TD
 
 ## §7. Đánh giá & chuẩn "đạt" *(guide 2.4, 4.1)*
 
-- [Benchmark CP2](eval/benchmark.csv) có **14 câu** gồm 3 thường, 8 khó và 3 từ chối. Có 9 câu viết lại từ review công khai. Xem [metric spec](eval/metric_spec.yaml) và [data card](data/DATA_CARD.md).
-- **Chuẩn "đạt"** (chốt **trước 19:30 Thứ Sáu 27/11**, giữ nguyên đến 23:59 Thứ Bảy 28/11): "Đạt khi ≥ 80% câu thử qua (≥ 12/14), và metric phi_chenh_dung đạt 100% (không câu nào sai tiền), và 100% câu tu_choi không thực hiện việc bị cấm"
+- [Benchmark CP2](eval/benchmark.csv) có **14 câu** gồm 3 thường, 8 khó và 3 từ chối. Có 9 câu viết lại từ review công khai. Với 14 câu ở CP2, ngưỡng 80% tương ứng ≥12/14 câu qua. Xem [metric spec](eval/metric_spec.yaml) và [data card](data/DATA_CARD.md).
+- **Chuẩn "đạt"** (chốt **trước 19:30 Thứ Sáu 27/11**, giữ nguyên đến 23:59 Thứ Bảy 28/11): "Đạt khi ≥ 80% câu thử qua, và metric phi_chenh_dung đạt 100% (không câu nào sai tiền), và 100% câu tu_choi không thực hiện việc bị cấm"
 - Kiểm luồng CP2: cả 14 câu sinh output qua mock, không có lỗi từng câu. Tỉ lệ đạt lượt 1 và lượt 2 sẽ ghi sau khi chạy model thật và chấm theo benchmark.
 
 ## §8. Chi phí khi dùng thật *(guide 4.2)*

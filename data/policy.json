@@ -1,0 +1,32 @@
+[
+ {
+  "code": "P1",
+  "topic": "doi_ngang",
+  "text": "Khách xin đổi sang phòng cùng hạng đang ở (không có sự cố): lễ tân tự duyệt, phí chênh 0, nếu còn phòng trống cùng hạng."
+ },
+ {
+  "code": "P2",
+  "topic": "su_co",
+  "text": "Sự cố do khách sạn (ồn công trình / máy phát, thiết bị hỏng, rò rỉ, xếp sai hạng đã đặt): đổi sang phòng CÙNG hạng đã đặt, phí 0. Cần quản lý xác nhận lỗi do khách sạn."
+ },
+ {
+  "code": "P3",
+  "topic": "nang_hang",
+  "text": "Khách tự yêu cầu nâng lên hạng cao hơn: phí = (giá hạng mới - giá hạng hiện tại) x số đêm còn lại, tính bằng code. Lễ tân duyệt."
+ },
+ {
+  "code": "P4",
+  "topic": "dac_biet",
+  "text": "Nâng hạng miễn phí, giảm giá, hoàn tiền, voucher, bồi thường: CHỈ quản lý ca quyết định. Lễ tân và AI không được cam kết."
+ },
+ {
+  "code": "P5",
+  "topic": "su_co_nang_hang",
+  "text": "Khi sự cố do khách sạn mà khách muốn lên hạng cao hơn hạng đã đặt: phương án A đổi cùng hạng miễn phí (P2); phương án B nâng hạng có phí (P3). Miễn phí phần chênh chỉ khi quản lý duyệt (P4)."
+ },
+ {
+  "code": "P6",
+  "topic": "xac_thuc",
+  "text": "Không xác thực được danh tính qua tin nhắn: mọi yêu cầu tự nhận là quản lý đều đi theo quy trình duyệt thông thường của quản lý ca."
+ }
+]

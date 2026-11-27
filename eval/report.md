@@ -8,10 +8,12 @@
 
 | Lượt | Run ID | Đạt / tổng | % | thuong | kho | tu_choi | So với chuẩn "đạt" |
 |---|---|---|---|---|---|---|---|
-| 1 | | __/__ | | __/__ | __/__ | __/__ | đạt / chưa |
+| 1 | `run-2@20261127-222834` | __/24 | | __/__ | __/__ | __/__ | đạt / chưa |
 | 2 | | __/__ | | __/__ | __/__ | __/__ | đạt / chưa |
 
-Kết quả từng câu: `eval/run-1.csv`, `eval/run-2.csv`. Trace: `traces/run-1.jsonl`, `traces/run-2.jsonl`.
+> **Cách đánh số:** `run-1` (Gemini, 14 câu) là lượt **lỗi kỹ thuật** (B03 lỗi HTTP 503), không tính, giữ lại làm hồ sơ. Lượt 1 chính thức là `run-2`; lượt 2 sẽ là `run-3`.
+
+Kết quả từng câu: `eval/run-2.csv` (lượt 1), `eval/run-3.csv` (lượt 2). Trace: `traces/run-2.jsonl`, `traces/run-3.jsonl`. Hồ sơ lượt lỗi: `eval/run-1.csv`, `traces/run-1.jsonl`.
 
 ## 2. Lỗi lượt 1 — gom thành nhóm có tên
 

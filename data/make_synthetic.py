@@ -30,7 +30,9 @@ ORDER = ["SGL", "STD", "DLX", "PRM", "JRS", "STE", "PRS"]  # thấp → cao
 TYPE_OVERRIDE = {"305": "STD", "507": "DLX", "127": "SGL"}
 NEAR_ELEVATOR = {"305", "127", "101", "102", "201", "202", "301", "302", "401", "402", "501", "502", "601", "602"}
 EXTRA_ROOMS = ["127", "218", "233", "322", "608", "615"]
-OCCUPIED_FORCED = {"127", "218", "233", "305", "322", "410", "412", "507", "615"}
+OCCUPIED_FORCED = {"127", "218", "233", "305", "322", "410", "412", "507", "615",
+                   # danh mục kịch bản mở rộng (data/SCENARIOS.md)
+                   "110", "106", "211", "212", "403", "603", "411", "307", "503", "605"}
 VACANT_FORCED = {"104", "206", "304", "407", "405", "508", "608"}
 TICKETS = {
     "127": {"issue": "no_security_chain", "by": "hotel"},
@@ -38,6 +40,8 @@ TICKETS = {
     "322": {"issue": "aircon_broken", "by": "hotel"},
     "507": {"issue": "generator_noise", "by": "hotel"},
     "615": {"issue": "construction_noise", "by": "hotel"},
+    "403": {"issue": "aircon_broken", "by": "hotel"},        # BK-2305
+    "503": {"issue": "construction_noise", "by": "hotel"},   # BK-2309
 }
 
 
@@ -90,6 +94,17 @@ def build():
         ("BK-6021", "233", "DLX", -2, 3, 0, ""),
         ("BK-7044", "507", "DLX", -1, 3, 0, ""),
         ("BK-8800", "412", "DLX", -1, 2, 0, ""),
+        # --- danh mục kịch bản mở rộng cho bộ câu thử CP3 (mô tả: data/SCENARIOS.md) ---
+        ("BK-2301", "211", "DLX", -1, 4, 0, ""),
+        ("BK-2302", "110", "SGL", -1, 2, 0, ""),
+        ("BK-2303", "106", "STD", -2, 3, 0, ""),
+        ("BK-2304", "212", "DLX", -1, 2, 0, ""),
+        ("BK-2305", "403", "PRM", -1, 3, 0, ""),
+        ("BK-2306", "603", "JRS", -2, 3, 0, ""),
+        ("BK-2307", "411", "PRM", -1, 2, 0, "xếp phòng thấp hơn hạng đã đặt"),
+        ("BK-2308", "307", "DLX", -1, 3, 0, ""),
+        ("BK-2309", "503", "PRM", -1, 2, 0, ""),
+        ("BK-2310", "605", "JRS", -1, 1, 0, "còn đúng 1 đêm"),
     ]
     bookings = []
     for bid, room, btype, cin, cout, paid, note in scenario:

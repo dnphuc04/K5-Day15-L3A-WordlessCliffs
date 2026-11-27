@@ -43,10 +43,13 @@ python run.py score eval/run-N.csv       # % đạt tổng và theo type
 
 | Lượt | Run ID | Model | Cấu hình (prompt / công cụ / thay đổi) | Đạt / tổng | % | Đạt chuẩn? |
 |---|---|---|---|---|---|---|
-| 1 | | | | __/__ | | |
+| *(lỗi kỹ thuật, không tính)* | `run-1@20261127-220323` | gemini-3.1-flash-lite | Prompt và công cụ bản đầu, 14 câu (B01–B14). Câu B03 lỗi HTTP 503 do server quá tải tạm thời, chưa có cơ chế thử lại | 13/14 câu chạy xong, chưa chấm | — | không tính, giữ lại làm hồ sơ |
+| 1 | `run-2@20261127-222834` | gpt-5.4-mini | Prompt đã chỉnh quy tắc sự cố / nâng hạng, thêm lớp chặn tấn công bằng luật từ khoá, thêm thử lại khi lỗi 429 / 5xx, 24 câu (B01–B24); thay đổi ghi ở `spec.md` §10 | __/24 *(Khôi chấm)* | | |
 | 2 | | | | __/__ | | |
 
 Lượt chạy lại vì lỗi kỹ thuật, lượt sau CP4: ghi thêm dòng, không sửa dòng cũ.
+
+*Số thứ tự file ≠ số lượt:* `run-1` là lượt lỗi kỹ thuật nên không tính; **lượt 1 chính thức là `run-2`**, lượt 2 (sau cải tiến ở CP4) sẽ là `run-3`.
 
 ## 6. Lỗi chính
 

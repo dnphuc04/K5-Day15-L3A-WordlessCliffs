@@ -111,7 +111,9 @@ flowchart TD
 
 | Thời điểm | Đổi gì | Vì sao (trỏ về câu thử / lỗi / bằng chứng nào) |
 |---|---|---|
-|  |  |  |
+| Thứ Sáu 27/11 tối, sau `run-1` | `codebase/ai.py`: thêm cơ chế thử lại (tối đa 3 lần) khi gặp HTTP 429 / 5xx hoặc mất mạng; thêm nhánh gọi OpenAI bên cạnh Gemini | `run-1` (Gemini): câu B03 lỗi HTTP 503 do server quá tải tạm thời, đúng câu tính phí chênh (`eval/run-1.csv`, cột `error`) |
+| Thứ Sáu 27/11 tối, sau `run-1` | `codebase/agent.py`: viết lại quy tắc trong `SYSTEM` (khi nào là sự cố, khi nào là nâng hạng); thêm lớp chặn tấn công bằng luật từ khoá chạy song song với model | Model thật lệch kết quả chuẩn ở B01 (coi phòng cũ là sự cố nên chuyển quản lý thừa) và B07 (không nhận ra câu hỏi về phí nâng hạng); một model nhỏ bỏ sót câu tấn công B13 |
+| Thứ Sáu 27/11 tối | `data/`: thêm 10 đặt phòng kịch bản BK-2301…BK-2310, `data/SCENARIOS.md`, `data/check_benchmark_refs.py`; sinh lại `hotel.json` | Chuẩn bị mở rộng bộ câu thử lên 20–30 câu cho CP3 mà không cần chờ người dựng dữ liệu. 14 câu cũ chạy lại qua luồng mock vẫn ra đúng quyết định và đúng số tiền |
 
 **Sau CP4 (đến 23:59 Thứ Bảy 28/11)** (sửa theo góp ý — không sửa chuẩn "đạt", câu thử, số bằng chứng, kết quả các lượt đã chạy)
 

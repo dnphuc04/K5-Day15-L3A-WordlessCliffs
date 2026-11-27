@@ -17,7 +17,11 @@ Chế độ giả (mặc định khi .env chưa có MODEL_PROVIDER, hoặc MODEL
 Nối model thật: điền .env (chép từ .env.example), rồi viết nhánh gọi API ở dưới theo docs/connect-model.md
 (có ví dụ OpenAI, Claude, model chạy trên máy, và cách nối nhà cung cấp khác). Không dán API key vào file này.
 """
+import json
 import os
+import time
+import urllib.error
+import urllib.request
 
 from tracing import model_call
 
@@ -43,14 +47,98 @@ MODEL_NAME = (os.environ.get("MODEL_NAME") or "").strip()
 API_KEY = (os.environ.get("API_KEY") or "").strip()
 
 
+SHOW_RAW = False   # đổi thành True để in nguyên phản hồi của API khi cần tìm tên trường
+
+
+RETRY_CODES = (429, 500, 502, 503, 504)   # lỗi tạm thời của server / giới hạn lượt gọi: thử lại
+RETRY_WAITS = (2, 6, 15)                  # giây chờ trước mỗi lần thử lại (tối đa 3 lần thử lại)
+
+
+def post_json(url, headers, body, timeout=60):
+    """Gửi POST JSON, trả về JSON phản hồi. Chỉ dùng thư viện chuẩn (urllib).
+    Lỗi tạm thời (HTTP 429/5xx, mất mạng, quá giờ) được thử lại vài lần; lỗi khác (401, 400…) báo ngay."""
+    payload = json.dumps(body).encode("utf-8")
+    hdrs = dict({"Content-Type": "application/json"}, **headers)
+    for attempt in range(len(RETRY_WAITS) + 1):
+        req = urllib.request.Request(url, data=payload, method="POST", headers=hdrs)
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as r:
+                data = json.loads(r.read().decode("utf-8"))
+            break
+        except urllib.error.HTTPError as e:
+            msg = "HTTP %d: %s" % (e.code, e.read().decode("utf-8", "replace")[:300])
+            if e.code not in RETRY_CODES or attempt == len(RETRY_WAITS):
+                raise RuntimeError(msg)
+        except (urllib.error.URLError, TimeoutError, ConnectionError) as e:
+            msg = "mạng: %s" % e
+            if attempt == len(RETRY_WAITS):
+                raise RuntimeError(msg)
+        time.sleep(RETRY_WAITS[attempt])
+    if SHOW_RAW:
+        print(json.dumps(data, ensure_ascii=False, indent=2)[:3000])
+    return data
+
+
+def parse_gemini(data):
+    """Rút chữ trả lời và số token từ phản hồi generateContent của Gemini.
+    Token ra = candidatesTokenCount + thoughtsTokenCount (token suy luận được tính tiền như token ra)."""
+    cands = data.get("candidates") or []
+    if not cands:
+        raise RuntimeError("Gemini không trả ứng viên nào: %s" % json.dumps(data.get("promptFeedback", data), ensure_ascii=False)[:300])
+    parts = (cands[0].get("content") or {}).get("parts") or []
+    text = "".join(p.get("text", "") for p in parts)
+    usage = data.get("usageMetadata") or {}
+    return {"text": text,
+            "tokens_in": usage.get("promptTokenCount", 0),
+            "tokens_out": (usage.get("candidatesTokenCount", 0) or 0) + (usage.get("thoughtsTokenCount", 0) or 0)}
+
+
+def call_gemini(system, user):
+    """Gọi đúng MỘT lần Gemini qua REST. Cần API_KEY và MODEL_NAME trong .env."""
+    if not API_KEY or not MODEL_NAME:
+        raise RuntimeError("Thiếu API_KEY hoặc MODEL_NAME trong .env (MODEL_PROVIDER=gemini)")
+    url = "https://generativelanguage.googleapis.com/v1beta/models/%s:generateContent" % MODEL_NAME
+    body = {"contents": [{"role": "user", "parts": [{"text": user}]}],
+            "generationConfig": {"temperature": 0}}
+    if system:
+        body["systemInstruction"] = {"parts": [{"text": system}]}
+    return parse_gemini(post_json(url, {"x-goog-api-key": API_KEY}, body))
+
+
+URL_OPENAI = "https://api.openai.com/v1/chat/completions"
+
+
+def parse_openai(data):
+    """Rút chữ trả lời và số token từ phản hồi chat/completions của OpenAI.
+    completion_tokens đã gồm cả token suy luận (nếu model có suy luận)."""
+    choices = data.get("choices") or []
+    if not choices:
+        raise RuntimeError("OpenAI không trả lựa chọn nào: %s" % json.dumps(data, ensure_ascii=False)[:300])
+    u = data.get("usage") or {}
+    return {"text": choices[0].get("message", {}).get("content") or "",
+            "tokens_in": u.get("prompt_tokens", 0), "tokens_out": u.get("completion_tokens", 0)}
+
+
+def call_openai(system, user):
+    """Gọi đúng MỘT lần OpenAI qua REST. Cần API_KEY và MODEL_NAME trong .env (MODEL_PROVIDER=openai)."""
+    if not API_KEY or not MODEL_NAME:
+        raise RuntimeError("Thiếu API_KEY hoặc MODEL_NAME trong .env (MODEL_PROVIDER=openai)")
+    messages = ([{"role": "system", "content": system}] if system else []) + [{"role": "user", "content": user}]
+    data = post_json(URL_OPENAI, {"Authorization": "Bearer " + API_KEY}, {"model": MODEL_NAME, "messages": messages})
+    return parse_openai(data)
+
+
 @model_call
 def call_model(system: str, user: str) -> dict:
     if MODEL_PROVIDER == "fake":
         last = (user.strip().splitlines() or [""])[-1]
         return {"text": "[câu trả lời giả — chưa nối model] " + last[:60], "model": "fake", "tokens_in": 0, "tokens_out": 0}
+    if MODEL_PROVIDER in ("gemini", "openai"):
+        r = call_gemini(system, user) if MODEL_PROVIDER == "gemini" else call_openai(system, user)
+        return {"text": r["text"], "model": MODEL_NAME,
+                "tokens_in": int(r["tokens_in"]), "tokens_out": int(r["tokens_out"])}
 
-    # NHÓM VIẾT: gọi model thật ở đây (theo MODEL_PROVIDER, MODEL_NAME, API_KEY) rồi trả đúng 4 khoá.
-    # Ví dụ chép được cho từng nhà cung cấp: docs/connect-model.md mục 2.
+    # Nhà cung cấp khác (Claude, Ollama…): chép code từ docs/connect-model.md mục 2.
     raise NotImplementedError(
         "chưa viết phần gọi model thật cho MODEL_PROVIDER=%s trong codebase/ai.py — xem docs/connect-model.md"
         % MODEL_PROVIDER)

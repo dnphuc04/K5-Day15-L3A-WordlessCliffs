@@ -94,7 +94,7 @@
    "room": "107",
    "floor": 1,
    "type": "STD",
-   "status": "vacant",
+   "status": "occupied",
    "near_elevator": false,
    "ticket": null
   },
@@ -102,7 +102,7 @@
    "room": "108",
    "floor": 1,
    "type": "STD",
-   "status": "occupied",
+   "status": "vacant",
    "near_elevator": false,
    "ticket": null
   },
@@ -134,7 +134,7 @@
    "room": "112",
    "floor": 1,
    "type": "SGL",
-   "status": "vacant",
+   "status": "occupied",
    "near_elevator": false,
    "ticket": null
   },
@@ -153,7 +153,7 @@
    "room": "201",
    "floor": 2,
    "type": "DLX",
-   "status": "vacant",
+   "status": "occupied",
    "near_elevator": true,
    "ticket": null
   },
@@ -161,7 +161,7 @@
    "room": "202",
    "floor": 2,
    "type": "DLX",
-   "status": "occupied",
+   "status": "vacant",
    "near_elevator": true,
    "ticket": null
   },
@@ -177,7 +177,7 @@
    "room": "204",
    "floor": 2,
    "type": "DLX",
-   "status": "vacant",
+   "status": "occupied",
    "near_elevator": false,
    "ticket": null
   },
@@ -201,7 +201,7 @@
    "room": "207",
    "floor": 2,
    "type": "DLX",
-   "status": "occupied",
+   "status": "vacant",
    "near_elevator": false,
    "ticket": null
   },
@@ -209,7 +209,7 @@
    "room": "208",
    "floor": 2,
    "type": "DLX",
-   "status": "occupied",
+   "status": "vacant",
    "near_elevator": false,
    "ticket": null
   },
@@ -225,7 +225,7 @@
    "room": "210",
    "floor": 2,
    "type": "DLX",
-   "status": "vacant",
+   "status": "occupied",
    "near_elevator": false,
    "ticket": null
   },
@@ -268,7 +268,7 @@
    "room": "301",
    "floor": 3,
    "type": "DLX",
-   "status": "vacant",
+   "status": "occupied",
    "near_elevator": true,
    "ticket": null
   },
@@ -276,7 +276,7 @@
    "room": "302",
    "floor": 3,
    "type": "DLX",
-   "status": "occupied",
+   "status": "vacant",
    "near_elevator": true,
    "ticket": null
   },
@@ -308,7 +308,7 @@
    "room": "306",
    "floor": 3,
    "type": "DLX",
-   "status": "vacant",
+   "status": "occupied",
    "near_elevator": false,
    "ticket": null
   },
@@ -324,7 +324,7 @@
    "room": "308",
    "floor": 3,
    "type": "DLX",
-   "status": "occupied",
+   "status": "vacant",
    "near_elevator": false,
    "ticket": null
   },
@@ -348,7 +348,7 @@
    "room": "311",
    "floor": 3,
    "type": "PRM",
-   "status": "occupied",
+   "status": "vacant",
    "near_elevator": false,
    "ticket": null
   },
@@ -393,7 +393,10 @@
    "type": "PRM",
    "status": "occupied",
    "near_elevator": false,
-   "ticket": null
+   "ticket": {
+    "issue": "aircon_broken",
+    "by": "hotel"
+   }
   },
   {
    "room": "404",
@@ -415,7 +418,7 @@
    "room": "406",
    "floor": 4,
    "type": "PRM",
-   "status": "vacant",
+   "status": "occupied",
    "near_elevator": false,
    "ticket": null
   },
@@ -431,7 +434,7 @@
    "room": "408",
    "floor": 4,
    "type": "DLX",
-   "status": "vacant",
+   "status": "occupied",
    "near_elevator": false,
    "ticket": null
   },
@@ -439,7 +442,7 @@
    "room": "409",
    "floor": 4,
    "type": "DLX",
-   "status": "vacant",
+   "status": "occupied",
    "near_elevator": false,
    "ticket": null
   },
@@ -487,9 +490,12 @@
    "room": "503",
    "floor": 5,
    "type": "PRM",
-   "status": "vacant",
+   "status": "occupied",
    "near_elevator": false,
-   "ticket": null
+   "ticket": {
+    "issue": "construction_noise",
+    "by": "hotel"
+   }
   },
   {
    "room": "504",
@@ -503,7 +509,7 @@
    "room": "505",
    "floor": 5,
    "type": "PRM",
-   "status": "occupied",
+   "status": "vacant",
    "near_elevator": false,
    "ticket": null
   },
@@ -546,7 +552,7 @@
    "room": "510",
    "floor": 5,
    "type": "JRS",
-   "status": "vacant",
+   "status": "occupied",
    "near_elevator": false,
    "ticket": null
   },
@@ -570,7 +576,7 @@
    "room": "601",
    "floor": 6,
    "type": "JRS",
-   "status": "occupied",
+   "status": "vacant",
    "near_elevator": true,
    "ticket": null
   },
@@ -594,7 +600,7 @@
    "room": "604",
    "floor": 6,
    "type": "JRS",
-   "status": "vacant",
+   "status": "occupied",
    "near_elevator": false,
    "ticket": null
   },
@@ -610,7 +616,7 @@
    "room": "606",
    "floor": 6,
    "type": "JRS",
-   "status": "occupied",
+   "status": "vacant",
    "near_elevator": false,
    "ticket": null
   },
@@ -766,6 +772,106 @@
    "note": ""
   },
   {
+   "id": "BK-2301",
+   "guest": "Khách giả 2301",
+   "room": "211",
+   "booked_type": "DLX",
+   "check_in": "2026-11-26",
+   "check_out": "2026-12-01",
+   "upgrade_paid_vnd": 0,
+   "note": ""
+  },
+  {
+   "id": "BK-2302",
+   "guest": "Khách giả 2302",
+   "room": "110",
+   "booked_type": "SGL",
+   "check_in": "2026-11-26",
+   "check_out": "2026-11-29",
+   "upgrade_paid_vnd": 0,
+   "note": ""
+  },
+  {
+   "id": "BK-2303",
+   "guest": "Khách giả 2303",
+   "room": "106",
+   "booked_type": "STD",
+   "check_in": "2026-11-25",
+   "check_out": "2026-11-30",
+   "upgrade_paid_vnd": 0,
+   "note": ""
+  },
+  {
+   "id": "BK-2304",
+   "guest": "Khách giả 2304",
+   "room": "212",
+   "booked_type": "DLX",
+   "check_in": "2026-11-26",
+   "check_out": "2026-11-29",
+   "upgrade_paid_vnd": 0,
+   "note": ""
+  },
+  {
+   "id": "BK-2305",
+   "guest": "Khách giả 2305",
+   "room": "403",
+   "booked_type": "PRM",
+   "check_in": "2026-11-26",
+   "check_out": "2026-11-30",
+   "upgrade_paid_vnd": 0,
+   "note": ""
+  },
+  {
+   "id": "BK-2306",
+   "guest": "Khách giả 2306",
+   "room": "603",
+   "booked_type": "JRS",
+   "check_in": "2026-11-25",
+   "check_out": "2026-11-30",
+   "upgrade_paid_vnd": 0,
+   "note": ""
+  },
+  {
+   "id": "BK-2307",
+   "guest": "Khách giả 2307",
+   "room": "411",
+   "booked_type": "PRM",
+   "check_in": "2026-11-26",
+   "check_out": "2026-11-29",
+   "upgrade_paid_vnd": 0,
+   "note": "xếp phòng thấp hơn hạng đã đặt"
+  },
+  {
+   "id": "BK-2308",
+   "guest": "Khách giả 2308",
+   "room": "307",
+   "booked_type": "DLX",
+   "check_in": "2026-11-26",
+   "check_out": "2026-11-30",
+   "upgrade_paid_vnd": 0,
+   "note": ""
+  },
+  {
+   "id": "BK-2309",
+   "guest": "Khách giả 2309",
+   "room": "503",
+   "booked_type": "PRM",
+   "check_in": "2026-11-26",
+   "check_out": "2026-11-29",
+   "upgrade_paid_vnd": 0,
+   "note": ""
+  },
+  {
+   "id": "BK-2310",
+   "guest": "Khách giả 2310",
+   "room": "605",
+   "booked_type": "JRS",
+   "check_in": "2026-11-26",
+   "check_out": "2026-11-28",
+   "upgrade_paid_vnd": 0,
+   "note": "còn đúng 1 đêm"
+  },
+  {
    "id": "BK-9001",
    "guest": "Khách giả 9001",
    "room": "101",
@@ -780,17 +886,17 @@
    "guest": "Khách giả 9002",
    "room": "103",
    "booked_type": "STD",
-   "check_in": "2026-11-24",
-   "check_out": "2026-11-30",
+   "check_in": "2026-11-26",
+   "check_out": "2026-11-29",
    "upgrade_paid_vnd": 0,
    "note": ""
   },
   {
    "id": "BK-9003",
    "guest": "Khách giả 9003",
-   "room": "106",
+   "room": "107",
    "booked_type": "STD",
-   "check_in": "2026-11-24",
+   "check_in": "2026-11-25",
    "check_out": "2026-11-28",
    "upgrade_paid_vnd": 0,
    "note": ""
@@ -798,29 +904,29 @@
   {
    "id": "BK-9004",
    "guest": "Khách giả 9004",
-   "room": "108",
-   "booked_type": "STD",
-   "check_in": "2026-11-25",
-   "check_out": "2026-12-01",
+   "room": "109",
+   "booked_type": "SGL",
+   "check_in": "2026-11-26",
+   "check_out": "2026-11-30",
    "upgrade_paid_vnd": 0,
    "note": ""
   },
   {
    "id": "BK-9005",
    "guest": "Khách giả 9005",
-   "room": "109",
+   "room": "111",
    "booked_type": "SGL",
-   "check_in": "2026-11-26",
-   "check_out": "2026-11-28",
+   "check_in": "2026-11-25",
+   "check_out": "2026-11-29",
    "upgrade_paid_vnd": 0,
    "note": ""
   },
   {
    "id": "BK-9006",
    "guest": "Khách giả 9006",
-   "room": "110",
+   "room": "112",
    "booked_type": "SGL",
-   "check_in": "2026-11-24",
+   "check_in": "2026-11-25",
    "check_out": "2026-12-01",
    "upgrade_paid_vnd": 0,
    "note": ""
@@ -828,19 +934,19 @@
   {
    "id": "BK-9007",
    "guest": "Khách giả 9007",
-   "room": "111",
-   "booked_type": "SGL",
+   "room": "201",
+   "booked_type": "DLX",
    "check_in": "2026-11-24",
-   "check_out": "2026-11-28",
+   "check_out": "2026-11-30",
    "upgrade_paid_vnd": 0,
    "note": ""
   },
   {
    "id": "BK-9008",
    "guest": "Khách giả 9008",
-   "room": "202",
+   "room": "204",
    "booked_type": "DLX",
-   "check_in": "2026-11-25",
+   "check_in": "2026-11-24",
    "check_out": "2026-11-28",
    "upgrade_paid_vnd": 0,
    "note": ""
@@ -848,47 +954,27 @@
   {
    "id": "BK-9009",
    "guest": "Khách giả 9009",
-   "room": "207",
+   "room": "209",
    "booked_type": "DLX",
    "check_in": "2026-11-25",
-   "check_out": "2026-11-28",
+   "check_out": "2026-12-01",
    "upgrade_paid_vnd": 0,
    "note": ""
   },
   {
    "id": "BK-9010",
    "guest": "Khách giả 9010",
-   "room": "208",
+   "room": "210",
    "booked_type": "DLX",
-   "check_in": "2026-11-27",
-   "check_out": "2026-12-01",
+   "check_in": "2026-11-26",
+   "check_out": "2026-11-28",
    "upgrade_paid_vnd": 0,
    "note": ""
   },
   {
    "id": "BK-9011",
    "guest": "Khách giả 9011",
-   "room": "209",
-   "booked_type": "DLX",
-   "check_in": "2026-11-27",
-   "check_out": "2026-11-30",
-   "upgrade_paid_vnd": 0,
-   "note": ""
-  },
-  {
-   "id": "BK-9012",
-   "guest": "Khách giả 9012",
-   "room": "211",
-   "booked_type": "DLX",
-   "check_in": "2026-11-26",
-   "check_out": "2026-12-01",
-   "upgrade_paid_vnd": 0,
-   "note": ""
-  },
-  {
-   "id": "BK-9013",
-   "guest": "Khách giả 9013",
-   "room": "212",
+   "room": "301",
    "booked_type": "DLX",
    "check_in": "2026-11-24",
    "check_out": "2026-12-01",
@@ -896,20 +982,40 @@
    "note": ""
   },
   {
+   "id": "BK-9012",
+   "guest": "Khách giả 9012",
+   "room": "303",
+   "booked_type": "DLX",
+   "check_in": "2026-11-24",
+   "check_out": "2026-11-28",
+   "upgrade_paid_vnd": 0,
+   "note": ""
+  },
+  {
+   "id": "BK-9013",
+   "guest": "Khách giả 9013",
+   "room": "306",
+   "booked_type": "DLX",
+   "check_in": "2026-11-25",
+   "check_out": "2026-11-28",
+   "upgrade_paid_vnd": 0,
+   "note": ""
+  },
+  {
    "id": "BK-9014",
    "guest": "Khách giả 9014",
-   "room": "302",
-   "booked_type": "DLX",
-   "check_in": "2026-11-27",
-   "check_out": "2026-12-02",
+   "room": "309",
+   "booked_type": "PRM",
+   "check_in": "2026-11-25",
+   "check_out": "2026-11-28",
    "upgrade_paid_vnd": 0,
    "note": ""
   },
   {
    "id": "BK-9015",
    "guest": "Khách giả 9015",
-   "room": "303",
-   "booked_type": "DLX",
+   "room": "310",
+   "booked_type": "PRM",
    "check_in": "2026-11-27",
    "check_out": "2026-12-01",
    "upgrade_paid_vnd": 0,
@@ -918,37 +1024,37 @@
   {
    "id": "BK-9016",
    "guest": "Khách giả 9016",
-   "room": "307",
-   "booked_type": "DLX",
+   "room": "312",
+   "booked_type": "PRM",
    "check_in": "2026-11-27",
-   "check_out": "2026-12-02",
+   "check_out": "2026-11-30",
    "upgrade_paid_vnd": 0,
    "note": ""
   },
   {
    "id": "BK-9017",
    "guest": "Khách giả 9017",
-   "room": "308",
-   "booked_type": "DLX",
-   "check_in": "2026-11-24",
-   "check_out": "2026-11-29",
+   "room": "401",
+   "booked_type": "PRM",
+   "check_in": "2026-11-26",
+   "check_out": "2026-12-01",
    "upgrade_paid_vnd": 0,
    "note": ""
   },
   {
    "id": "BK-9018",
    "guest": "Khách giả 9018",
-   "room": "309",
+   "room": "402",
    "booked_type": "PRM",
    "check_in": "2026-11-24",
-   "check_out": "2026-11-30",
+   "check_out": "2026-12-01",
    "upgrade_paid_vnd": 0,
    "note": ""
   },
   {
    "id": "BK-9019",
    "guest": "Khách giả 9019",
-   "room": "310",
+   "room": "404",
    "booked_type": "PRM",
    "check_in": "2026-11-27",
    "check_out": "2026-12-02",
@@ -958,27 +1064,37 @@
   {
    "id": "BK-9020",
    "guest": "Khách giả 9020",
-   "room": "311",
+   "room": "406",
    "booked_type": "PRM",
    "check_in": "2026-11-27",
-   "check_out": "2026-11-28",
+   "check_out": "2026-12-01",
    "upgrade_paid_vnd": 0,
    "note": ""
   },
   {
    "id": "BK-9021",
    "guest": "Khách giả 9021",
-   "room": "312",
-   "booked_type": "PRM",
-   "check_in": "2026-11-25",
-   "check_out": "2026-12-01",
+   "room": "408",
+   "booked_type": "DLX",
+   "check_in": "2026-11-27",
+   "check_out": "2026-12-02",
    "upgrade_paid_vnd": 0,
    "note": ""
   },
   {
    "id": "BK-9022",
    "guest": "Khách giả 9022",
-   "room": "401",
+   "room": "409",
+   "booked_type": "DLX",
+   "check_in": "2026-11-24",
+   "check_out": "2026-11-29",
+   "upgrade_paid_vnd": 0,
+   "note": ""
+  },
+  {
+   "id": "BK-9023",
+   "guest": "Khách giả 9023",
+   "room": "501",
    "booked_type": "PRM",
    "check_in": "2026-11-24",
    "check_out": "2026-11-30",
@@ -986,21 +1102,11 @@
    "note": ""
   },
   {
-   "id": "BK-9023",
-   "guest": "Khách giả 9023",
-   "room": "402",
-   "booked_type": "PRM",
-   "check_in": "2026-11-27",
-   "check_out": "2026-12-02",
-   "upgrade_paid_vnd": 0,
-   "note": ""
-  },
-  {
    "id": "BK-9024",
    "guest": "Khách giả 9024",
-   "room": "403",
+   "room": "502",
    "booked_type": "PRM",
-   "check_in": "2026-11-25",
+   "check_in": "2026-11-27",
    "check_out": "2026-12-02",
    "upgrade_paid_vnd": 0,
    "note": ""
@@ -1008,19 +1114,19 @@
   {
    "id": "BK-9025",
    "guest": "Khách giả 9025",
-   "room": "404",
+   "room": "504",
    "booked_type": "PRM",
-   "check_in": "2026-11-24",
-   "check_out": "2026-11-30",
+   "check_in": "2026-11-27",
+   "check_out": "2026-11-28",
    "upgrade_paid_vnd": 0,
    "note": ""
   },
   {
    "id": "BK-9026",
    "guest": "Khách giả 9026",
-   "room": "411",
-   "booked_type": "DLX",
-   "check_in": "2026-11-27",
+   "room": "510",
+   "booked_type": "JRS",
+   "check_in": "2026-11-25",
    "check_out": "2026-12-01",
    "upgrade_paid_vnd": 0,
    "note": ""
@@ -1028,19 +1134,19 @@
   {
    "id": "BK-9027",
    "guest": "Khách giả 9027",
-   "room": "501",
-   "booked_type": "PRM",
+   "room": "511",
+   "booked_type": "JRS",
    "check_in": "2026-11-24",
-   "check_out": "2026-11-28",
+   "check_out": "2026-11-30",
    "upgrade_paid_vnd": 0,
    "note": ""
   },
   {
    "id": "BK-9028",
    "guest": "Khách giả 9028",
-   "room": "502",
-   "booked_type": "PRM",
-   "check_in": "2026-11-25",
+   "room": "512",
+   "booked_type": "JRS",
+   "check_in": "2026-11-27",
    "check_out": "2026-12-02",
    "upgrade_paid_vnd": 0,
    "note": ""
@@ -1048,9 +1154,9 @@
   {
    "id": "BK-9029",
    "guest": "Khách giả 9029",
-   "room": "504",
-   "booked_type": "PRM",
-   "check_in": "2026-11-24",
+   "room": "602",
+   "booked_type": "JRS",
+   "check_in": "2026-11-25",
    "check_out": "2026-12-02",
    "upgrade_paid_vnd": 0,
    "note": ""
@@ -1058,109 +1164,39 @@
   {
    "id": "BK-9030",
    "guest": "Khách giả 9030",
-   "room": "505",
-   "booked_type": "PRM",
-   "check_in": "2026-11-27",
-   "check_out": "2026-11-29",
+   "room": "604",
+   "booked_type": "JRS",
+   "check_in": "2026-11-24",
+   "check_out": "2026-11-30",
    "upgrade_paid_vnd": 0,
    "note": ""
   },
   {
    "id": "BK-9031",
    "guest": "Khách giả 9031",
-   "room": "511",
-   "booked_type": "JRS",
-   "check_in": "2026-11-25",
-   "check_out": "2026-11-29",
+   "room": "610",
+   "booked_type": "STE",
+   "check_in": "2026-11-27",
+   "check_out": "2026-12-01",
    "upgrade_paid_vnd": 0,
    "note": ""
   },
   {
    "id": "BK-9032",
    "guest": "Khách giả 9032",
-   "room": "512",
-   "booked_type": "JRS",
+   "room": "611",
+   "booked_type": "PRS",
    "check_in": "2026-11-24",
-   "check_out": "2026-12-02",
+   "check_out": "2026-11-28",
    "upgrade_paid_vnd": 0,
    "note": ""
   },
   {
    "id": "BK-9033",
    "guest": "Khách giả 9033",
-   "room": "601",
-   "booked_type": "JRS",
-   "check_in": "2026-11-25",
-   "check_out": "2026-11-30",
-   "upgrade_paid_vnd": 0,
-   "note": ""
-  },
-  {
-   "id": "BK-9034",
-   "guest": "Khách giả 9034",
-   "room": "602",
-   "booked_type": "JRS",
-   "check_in": "2026-11-26",
-   "check_out": "2026-12-02",
-   "upgrade_paid_vnd": 0,
-   "note": ""
-  },
-  {
-   "id": "BK-9035",
-   "guest": "Khách giả 9035",
-   "room": "603",
-   "booked_type": "JRS",
-   "check_in": "2026-11-25",
-   "check_out": "2026-12-01",
-   "upgrade_paid_vnd": 0,
-   "note": ""
-  },
-  {
-   "id": "BK-9036",
-   "guest": "Khách giả 9036",
-   "room": "605",
-   "booked_type": "JRS",
-   "check_in": "2026-11-25",
-   "check_out": "2026-11-28",
-   "upgrade_paid_vnd": 0,
-   "note": ""
-  },
-  {
-   "id": "BK-9037",
-   "guest": "Khách giả 9037",
-   "room": "606",
-   "booked_type": "JRS",
-   "check_in": "2026-11-25",
-   "check_out": "2026-11-29",
-   "upgrade_paid_vnd": 0,
-   "note": ""
-  },
-  {
-   "id": "BK-9038",
-   "guest": "Khách giả 9038",
-   "room": "610",
-   "booked_type": "STE",
-   "check_in": "2026-11-25",
-   "check_out": "2026-11-28",
-   "upgrade_paid_vnd": 0,
-   "note": ""
-  },
-  {
-   "id": "BK-9039",
-   "guest": "Khách giả 9039",
-   "room": "611",
-   "booked_type": "PRS",
-   "check_in": "2026-11-26",
-   "check_out": "2026-12-02",
-   "upgrade_paid_vnd": 0,
-   "note": ""
-  },
-  {
-   "id": "BK-9040",
-   "guest": "Khách giả 9040",
    "room": "612",
    "booked_type": "PRS",
-   "check_in": "2026-11-27",
+   "check_in": "2026-11-25",
    "check_out": "2026-12-02",
    "upgrade_paid_vnd": 0,
    "note": ""

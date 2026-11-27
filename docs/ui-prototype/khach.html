@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<title>Yêu cầu đổi phòng · Khách lưu trú</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500&family=Inter:wght@300;400;500;600&display=swap">
+<link rel="stylesheet" href="theme.css">
+<style>
+  body { min-height: 100vh; }
+  .shell { display: grid; grid-template-columns: 1fr; min-height: calc(100vh - 38px); }
+  .side { display: none; }
+  @media (min-width: 1024px) {
+    .shell { grid-template-columns: minmax(360px, 42%) 1fr; }
+    .side { display: flex; flex-direction: column; justify-content: space-between; background: #1F1E1C; color: #F4F2EE; padding: 48px 56px; position: sticky; top: 0; height: calc(100vh - 38px); }
+    .side .quote { font-family: var(--serif); font-size: clamp(36px, 3.4vw, 52px); line-height: 1.1; margin: 28px 0 20px; }
+    .side p { color: #CFCAC2; max-width: 420px; margin: 0; }
+    .side .key { color: #B9B1A6; }
+    .side .points { list-style: none; padding: 0; margin: 32px 0 0; display: flex; flex-direction: column; gap: 14px; color: #E6E2DB; font-size: 14px; }
+    .side .points li { display: flex; gap: 12px; align-items: flex-start; }
+    .side .points .n { flex: none; width: 24px; height: 24px; border: 1px solid #8C857B; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; }
+    .mobile-logo { display: none !important; }
+  }
+  .flow { display: flex; flex-direction: column; min-width: 0; }
+  .topbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 20px; border-bottom: 1px solid var(--line); }
+  .topbar .room-chip { font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 8px; }
+  .progress { height: 2px; background: var(--line); position: relative; overflow: hidden; }
+  .progress i { position: absolute; inset: 0 auto 0 0; background: var(--ink); width: 0; transition: width .6s var(--ease); }
+  .content { width: 100%; max-width: 620px; margin: 0 auto; padding: 36px 20px 140px; }
+  @media (min-width: 1024px) { .content { padding: 64px 48px 140px; } }
+  .content h1 { font-size: clamp(34px, 6vw, 48px); line-height: 1.08; margin-top: 10px; }
+  .lead { color: var(--muted); margin: 12px 0 28px; font-size: 16px; }
+  .stack { display: flex; flex-direction: column; gap: 14px; }
+
+  .found { display: flex; gap: 14px; align-items: center; padding: 18px; border: 1px solid var(--ink); margin-top: 16px; animation: fadeUp .45s var(--ease) both; }
+  .found .badge-ok { width: 36px; height: 36px; border-radius: 50%; background: var(--ink); color: #fff; display: flex; align-items: center; justify-content: center; flex: none; animation: pop .5s var(--ease) both; }
+  .found b { font-family: var(--serif); font-size: 22px; font-weight: 400; display: block; line-height: 1.2; }
+  .hint { margin-top: 12px; font-size: 14px; color: var(--muted); min-height: 22px; }
+  .try { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 26px; font-size: 13px; color: var(--muted); }
+  .chip { min-height: 40px; padding: 0 14px; border: 1px solid var(--field); background: #fff; font-size: 14px; transition: border-color .2s, background .2s, transform .12s; }
+  .chip:hover { border-color: var(--ink); }
+  .chip:active { transform: scale(.97); }
+  .chip[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
+
+  .choice { display: flex; gap: 18px; align-items: flex-start; text-align: left; width: 100%; padding: 22px; background: #fff; border: 1px solid #E3E3E3;
+    transition: border-color .2s, box-shadow .25s var(--ease), transform .25s var(--ease); }
+  .choice:hover { border-color: #9A9A9A; transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0, 0, 0, .06); }
+  .choice[aria-pressed="true"] { border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink), 0 10px 28px rgba(0, 0, 0, .08); }
+  .choice .ico { flex: none; width: 52px; height: 52px; border: 1px solid var(--field); display: flex; align-items: center; justify-content: center; transition: background .2s, color .2s, border-color .2s; }
+  .choice[aria-pressed="true"] .ico { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .choice b { display: block; font-family: var(--serif); font-size: 23px; font-weight: 400; line-height: 1.2; }
+  .choice span.d { display: block; color: var(--muted); font-size: 14px; margin-top: 4px; }
+  .sub { margin-top: 8px; padding: 22px; background: var(--soft); animation: fadeUp .4s var(--ease) both; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+
+  .switch { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 20px; cursor: pointer; }
+  .switch input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .switch .track { flex: none; width: 48px; height: 28px; border-radius: 14px; background: #CFCFCF; position: relative; transition: background .25s; }
+  .switch .track::after { content: ''; position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.25); transition: transform .25s var(--ease); }
+  .switch input:checked + .track { background: var(--ink); }
+  .switch input:checked + .track::after { transform: translateX(20px); }
+  .switch input:focus-visible + .track { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+  .tier { display: grid; grid-template-columns: 1fr auto; gap: 6px 16px; align-items: baseline; text-align: left; width: 100%; padding: 20px 22px; background: #fff; border: 1px solid #E3E3E3;
+    transition: border-color .2s, box-shadow .25s var(--ease), transform .25s var(--ease); }
+  .tier:hover { border-color: #9A9A9A; transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0, 0, 0, .06); }
+  .tier[aria-pressed="true"] { border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink), 0 10px 28px rgba(0, 0, 0, .08); }
+  .tier b { font-family: var(--serif); font-size: 26px; font-weight: 400; }
+  .tier .price { text-align: right; font-size: 15px; }
+  .tier .price small { display: block; color: var(--muted); font-size: 12px; }
+  .tier .meta { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 8px 16px; font-size: 13px; color: var(--muted); }
+  .avail { display: inline-flex; align-items: center; gap: 6px; }
+  .avail::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: #2F6B4F; }
+  .avail.no::before { background: #B4B4B4; }
+
+  .summary { border-top: 1px solid var(--ink); }
+  .summary div { display: flex; justify-content: space-between; gap: 16px; padding: 13px 0; border-bottom: 1px solid var(--line); }
+  .summary dt { color: var(--muted); }
+  .summary dd { margin: 0; text-align: right; font-weight: 500; }
+
+  .actionbar { position: fixed; left: 0; right: 0; bottom: 0; background: rgba(255, 255, 255, .96); backdrop-filter: blur(8px); border-top: 1px solid var(--line);
+    padding: 14px 20px calc(14px + env(safe-area-inset-bottom)); z-index: 10; }
+  @media (min-width: 1024px) { .actionbar { left: 42%; } }
+  .actionbar .inner { max-width: 620px; margin: 0 auto; display: flex; gap: 12px; align-items: center; }
+  .actionbar .btn.primary { flex: 1; }
+
+  /* Theo dõi */
+  .timeline { list-style: none; margin: 28px 0 32px; padding: 0; position: relative; }
+  .timeline li { position: relative; display: flex; gap: 16px; padding-bottom: 22px; }
+  .timeline li:last-child { padding-bottom: 0; }
+  .timeline li::before { content: ''; position: absolute; left: 13px; top: 28px; bottom: 0; width: 1px; background: var(--line); }
+  .timeline li:last-child::before { display: none; }
+  .timeline li.done::before { background: var(--ink); }
+  .timeline .dot { flex: none; width: 27px; height: 27px; border-radius: 50%; border: 1px solid var(--field); background: #fff; display: flex; align-items: center; justify-content: center; color: #fff; position: relative; z-index: 1; transition: background .4s, border-color .4s; }
+  .timeline li.done .dot { background: var(--ink); border-color: var(--ink); animation: pop .45s var(--ease) both; }
+  .timeline li.now .dot { border-color: var(--ink); }
+  .timeline li.now .dot::after { content: ''; width: 9px; height: 9px; border-radius: 50%; background: var(--ink); animation: pulse 1.8s infinite; }
+  .timeline .t { font-weight: 500; }
+  .timeline .s { font-size: 13px; color: var(--muted); }
+  .timeline li.todo .t { color: var(--muted); font-weight: 400; }
+
+  .reply { padding: 26px 24px; background: var(--soft); animation: fadeUp .5s var(--ease) both; }
+  .reply .from { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--muted); }
+  .reply blockquote { margin: 14px 0 20px; font-family: var(--serif); font-size: 22px; line-height: 1.4; }
+  .offers { display: grid; gap: 14px; }
+  .free { color: var(--ok-ink); }
+  details.history { margin-top: 32px; border-top: 1px solid var(--line); }
+  details.history summary { cursor: pointer; padding: 16px 0; font-size: 14px; color: var(--muted); list-style: none; display: flex; justify-content: space-between; }
+  details.history summary::after { content: '+'; font-size: 18px; transition: transform .25s; }
+  details.history[open] summary::after { transform: rotate(45deg); }
+  .bubbles { display: flex; flex-direction: column; gap: 10px; padding-bottom: 8px; }
+  .bubble { max-width: 85%; padding: 12px 14px; font-size: 14px; }
+  .bubble.khach { align-self: flex-end; background: var(--ink); color: #fff; }
+  .bubble.le_tan { align-self: flex-start; background: var(--soft); }
+  .bubble.he_thong { align-self: center; background: none; color: var(--muted); font-size: 13px; text-align: center; }
+  .bubble small { display: block; opacity: .7; font-size: 11px; margin-top: 4px; }
+  .done-wrap { display: flex; flex-direction: column; align-items: flex-start; gap: 18px; margin-top: 8px; }
+  .mode { font-size: 12px; color: var(--muted); margin-top: 40px; display: flex; align-items: center; gap: 8px; }
+</style>
+</head>
+<body>
+<div class="announce">Bản dùng thử · dữ liệu giả lập ngày 27/11/2026</div>
+<div class="shell">
+  <aside class="side" aria-hidden="true">
+    <div class="logo" style="align-items: flex-start"><b style="color:#fff">WORDLESSCLIFFS</b><small style="color:#CFCAC2">DỊCH VỤ KHÁCH LƯU TRÚ</small></div>
+    <div>
+      <span class="ic key" id="sideKey"></span>
+      <div class="quote">Để kỳ nghỉ của quý khách trọn vẹn hơn</div>
+      <p>Gửi yêu cầu đổi hoặc nâng hạng phòng ngay trên điện thoại. Lễ tân kiểm tra phòng trống, báo phí rõ ràng, quý khách đồng ý rồi mới chuyển.</p>
+      <ol class="points">
+        <li><span class="n">1</span>Xác nhận phòng đang ở</li>
+        <li><span class="n">2</span>Chọn điều quý khách cần</li>
+        <li><span class="n">3</span>Nhận phương án và phí từ lễ tân</li>
+      </ol>
+    </div>
+    <div class="small" style="color:#9C958B">Không cần đến quầy · không cần gọi điện</div>
+  </aside>
+
+  <div class="flow">
+    <div class="topbar">
+      <span class="logo mobile-logo"><b style="font-size:16px">WORDLESSCLIFFS</b><small>DỊCH VỤ KHÁCH LƯU TRÚ</small></span>
+      <span class="room-chip" id="roomChip"></span>
+      <span class="overline" id="stepLabel"></span>
+    </div>
+    <div class="progress" aria-hidden="true"><i id="bar"></i></div>
+    <main class="content" id="view" aria-live="polite"></main>
+  </div>
+</div>
+<div class="actionbar" id="actionbar"><div class="inner" id="actions"></div></div>
+
+<script src="data.js"></script>
+<script src="engine.js"></script>
+<script src="store.js"></script>
+<script>
+const E = Engine, el = UI.el;
+const GUEST_KEY = 'wc-guest-req';
+const st = { step: 'room', ref: '', booking: null, unknownRef: false, need: null, incident: null, upToo: false, target: null, note: '', reqId: null, anim: true, seenMsgs: 0, lastStatus: null };
+
+const NEEDS = {
+  doi: { icon: 'swap', t: 'Đổi sang phòng khác', d: 'Cùng hạng phòng, ví dụ muốn đổi vị trí hoặc hướng phòng.' },
+  nang: { icon: 'up', t: 'Nâng hạng phòng', d: 'Lên hạng cao hơn cho những đêm còn lại, xem giá trước khi chọn.' },
+  su_co: { icon: 'tool', t: 'Phòng đang gặp sự cố', d: 'Tiếng ồn, thiết bị hỏng, rò rỉ nước hoặc không đúng hạng đã đặt.' }
+};
+const ISSUES = [['noise', 'Tiếng ồn'], ['equipment', 'Thiết bị hỏng'], ['leak', 'Rò rỉ nước'], ['wrong_room', 'Không đúng hạng đã đặt'], ['other', 'Khác']];
+
+const steps = () => ['room', 'need'].concat(st.need === 'nang' || (st.need === 'su_co' && st.upToo) ? ['type'] : [], ['note']);
+const baseType = () => st.booking ? (st.booking.upgrade_paid_vnd > 0 ? st.booking.current_type : (st.need === 'su_co' ? st.booking.booked_type : st.booking.current_type)) : null;
+const R = (node, i) => { if (st.anim) { node.classList.add('reveal'); node.style.setProperty('--d', (i || 0) * 0.06 + 's'); } return node; };
+
+function go(step) { st.step = step; st.anim = true; render(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+function next() { const s = steps(); go(s[s.indexOf(st.step) + 1]); }
+function back() { const s = steps(); go(s[Math.max(0, s.indexOf(st.step) - 1)]); }
+
+function setActions(...nodes) { document.getElementById('actions').replaceChildren(...nodes); document.getElementById('actionbar').hidden = !nodes.length; }
+function header() {
+  const chip = document.getElementById('roomChip');
+  chip.replaceChildren(st.booking ? el('span', {}, 'Phòng ' + st.booking.room + ' · ' + E.typeName(st.booking.current_type)) : '');
+  const s = steps();
+  if (st.step === 'track') { document.getElementById('stepLabel').textContent = 'Theo dõi yêu cầu'; document.getElementById('bar').style.width = '100%'; return; }
+  const i = s.indexOf(st.step);
+  document.getElementById('stepLabel').textContent = 'Bước ' + (i + 1) + ' / ' + s.length;
+  document.getElementById('bar').style.width = ((i + 1) / (s.length + 1) * 100) + '%';
+}
+
+function render() {
+  header();
+  const v = document.getElementById('view');
+  v.replaceChildren();
+  ({ room: viewRoom, need: viewNeed, type: viewType, note: viewNote, track: viewTrack })[st.step](v);
+  st.anim = false;
+}
+
+/* ---- Bước 1: phòng ---- */
+function viewRoom(v) {
+  v.append(
+    R(el('div', { class: 'overline' }, 'Chào mừng quý khách'), 0),
+    R(el('h1', {}, 'Quý khách đang ở phòng nào?'), 1),
+    R(el('p', { class: 'lead' }, 'Nhập mã đặt phòng hoặc số phòng để lễ tân biết yêu cầu đến từ đâu.'), 2)
+  );
+  const input = el('input', { class: 'input', id: 'ref', type: 'text', autocomplete: 'off', autocapitalize: 'characters', spellcheck: 'false',
+    placeholder: 'VD: BK-2210 hoặc 410', value: st.ref, 'aria-describedby': 'refHint' });
+  const result = el('div', { id: 'refResult' });
+  const field = R(el('div', { class: 'field' }, el('label', { for: 'ref' }, 'Mã đặt phòng hoặc số phòng'), input, result), 3);
+  v.append(field);
+  const check = () => {
+    st.ref = input.value.trim();
+    st.booking = E.getBooking(st.ref);
+    st.unknownRef = false;
+    result.replaceChildren();
+    if (st.booking) {
+      const b = st.booking;
+      result.append(el('div', { class: 'found' },
+        el('span', { class: 'badge-ok', html: UI.icon.check }),
+        el('div', {}, el('b', {}, 'Phòng ' + b.room + ' · ' + E.typeName(b.current_type)),
+          el('span', { class: 'small muted' }, E.fmtDate(b.check_in) + ' → ' + E.fmtDate(b.check_out) + ' · còn ' + b.nights_left + ' đêm'))));
+    } else if (st.ref.length >= 3) {
+      result.append(el('p', { class: 'hint', id: 'refHint' }, 'Chưa tìm thấy. Mã đặt có dạng BK-1234, số phòng gồm 3 chữ số.'));
+    } else {
+      result.append(el('p', { class: 'hint', id: 'refHint' }, ''));
+    }
+    header();
+    cta.disabled = !st.booking;
+  };
+  input.addEventListener('input', check);
+  input.addEventListener('keydown', (e) => { if (e.key === 'Enter' && st.booking) next(); });
+  v.append(R(el('div', { class: 'try' }, 'Dùng thử nhanh:',
+    ...[['BK-2210', 'nâng hạng'], ['507', 'phòng có sự cố'], ['BK-8800', 'hạng cao hết phòng'], ['BK-1077', 'xếp sai hạng']].map(([c, t]) =>
+      el('button', { class: 'chip', type: 'button', title: t, onclick: () => { input.value = c; check(); input.focus(); } }, c))), 4));
+  v.append(R(el('button', { class: 'btn link', type: 'button', style: 'margin-top: 18px; padding-left: 0',
+    onclick: () => { st.unknownRef = true; st.booking = null; st.ref = ''; next(); } }, 'Tôi không nhớ mã đặt hay số phòng'), 5));
+  const cta = el('button', { class: 'btn primary', type: 'button', onclick: next }, 'Tiếp tục', UI.svg('arrow'));
+  cta.lastChild.classList.add('go');
+  setActions(cta);
+  check();
+  if (st.anim) setTimeout(() => input.focus({ preventScroll: true }), 350);
+}
+
+/* ---- Bước 2: nhu cầu ---- */
+function viewNeed(v) {
+  v.append(R(el('div', { class: 'overline' }, st.booking ? 'Phòng ' + st.booking.room : 'Yêu cầu của quý khách'), 0),
+    R(el('h1', {}, 'Quý khách cần hỗ trợ gì?'), 1),
+    R(el('p', { class: 'lead' }, 'Chọn một mục. Lễ tân sẽ kiểm tra và gửi phương án cho quý khách.'), 2));
+  const list = el('div', { class: 'stack', role: 'group', 'aria-label': 'Loại yêu cầu' });
+  Object.entries(NEEDS).forEach(([k, n], i) => {
+    list.append(R(el('button', { class: 'choice', type: 'button', 'aria-pressed': String(st.need === k),
+      onclick: () => { st.need = k; if (k !== 'su_co') { st.incident = null; st.upToo = false; } if (k === 'doi') st.target = null; render(); } },
+      el('span', { class: 'ico', html: UI.icon[n.icon] }), el('span', {}, el('b', {}, n.t), el('span', { class: 'd' }, n.d))), 3 + i));
+  });
+  v.append(list);
+  if (st.need === 'su_co') {
+    const sub = el('div', { class: 'sub' },
+      el('div', { class: 'label', id: 'issueLbl' }, 'Sự cố quý khách gặp'),
+      el('div', { class: 'chips', role: 'group', 'aria-labelledby': 'issueLbl' }, ...ISSUES.map(([k, t]) =>
+        el('button', { class: 'chip', type: 'button', 'aria-pressed': String(st.incident === k), onclick: () => { st.incident = k; render(); } }, t))),
+      el('label', { class: 'switch' },
+        el('span', {}, el('span', { style: 'display:block; font-weight:500' }, 'Tôi cũng muốn xem phòng hạng cao hơn'), el('span', { class: 'small muted' }, 'Có phí; lễ tân báo rõ trước khi quý khách đồng ý')),
+        el('input', { type: 'checkbox', checked: st.upToo, onchange: (e) => { st.upToo = e.target.checked; if (!st.upToo) st.target = null; header(); } }),
+        el('span', { class: 'track', 'aria-hidden': 'true' })),
+      el('div', { class: 'alert info', style: 'margin-top: 18px' }, UI.svg('check'),
+        el('span', {}, 'Sự cố do khách sạn: quý khách được đổi sang phòng cùng hạng không tính phí, sau khi quản lý ca xác nhận.')));
+    v.append(sub);
+  }
+  const ok = st.need && (st.need !== 'su_co' || st.incident);
+  setActions(el('button', { class: 'btn ghost', type: 'button', 'aria-label': 'Quay lại', onclick: back, html: UI.icon.back }),
+    el('button', { class: 'btn primary', type: 'button', disabled: !ok, onclick: next }, 'Tiếp tục'));
+}
+
+/* ---- Bước 3: chọn hạng ---- */
+function viewType(v) {
+  const base = baseType();
+  const n = st.booking ? st.booking.nights_left : 0;
+  v.append(R(el('div', { class: 'overline' }, 'Nâng hạng phòng'), 0),
+    R(el('h1', {}, 'Chọn hạng phòng mong muốn'), 1),
+    R(el('p', { class: 'lead' }, 'Giá công bố mỗi đêm. Phí chênh chính thức do lễ tân xác nhận trước khi quý khách đồng ý.'), 2));
+  const list = el('div', { class: 'stack', role: 'group', 'aria-label': 'Hạng phòng' });
+  const tiers = E.ORDER.filter((c) => base ? E.rank(c) > E.rank(base) : c !== 'SGL');
+  tiers.forEach((c, i) => {
+    const vacant = E.findVacantRooms(c, true, st.booking ? st.booking.room : '', 1).length > 0;
+    const diff = base ? E.rate(c) - E.rate(base) : 0;
+    list.append(R(el('button', { class: 'tier', type: 'button', 'aria-pressed': String(st.target === c), onclick: () => { st.target = c; render(); } },
+      el('b', {}, E.typeName(c)),
+      el('span', { class: 'price' }, E.vnd(E.rate(c)), el('small', {}, 'mỗi đêm')),
+      el('span', { class: 'meta' },
+        base ? el('span', {}, '+' + E.vnd(diff) + ' / đêm so với ' + E.typeName(base) + (n ? ' · khoảng ' + E.vnd(diff * n) + ' cho ' + n + ' đêm còn lại' : '')) : null,
+        el('span', { class: 'avail' + (vacant ? '' : ' no') }, vacant ? 'Còn phòng trống' : 'Tạm hết · lễ tân gợi ý hạng gần nhất'))), 3 + i));
+  });
+  if (!tiers.length) list.append(el('div', { class: 'alert plain' }, 'Quý khách đang ở hạng cao nhất của khách sạn.'));
+  v.append(list);
+  setActions(el('button', { class: 'btn ghost', type: 'button', 'aria-label': 'Quay lại', onclick: back, html: UI.icon.back }),
+    el('button', { class: 'btn primary', type: 'button', disabled: !st.target, onclick: next }, 'Tiếp tục'));
+}
+
+/* ---- Bước 4: xem lại và gửi ---- */
+function describe() {
+  const parts = [];
+  if (st.need === 'doi') parts.push('Tôi muốn đổi sang phòng khác cùng hạng.');
+  if (st.need === 'nang') parts.push('Tôi muốn nâng hạng lên ' + E.typeName(st.target) + '.');
+  if (st.need === 'su_co') {
+    parts.push('Phòng tôi đang gặp sự cố: ' + (ISSUES.find((x) => x[0] === st.incident) || [, ''])[1].toLowerCase() + '. Tôi muốn đổi phòng.');
+    if (st.upToo && st.target) parts.push('Tôi cũng muốn cân nhắc lên ' + E.typeName(st.target) + '.');
+  }
+  return parts.join(' ');
+}
+function viewNote(v) {
+  v.append(R(el('div', { class: 'overline' }, 'Bước cuối'), 0), R(el('h1', {}, 'Kiểm tra và gửi yêu cầu'), 1),
+    R(el('p', { class: 'lead' }, 'Lễ tân nhận được ngay. Quý khách có thể theo dõi tiến độ trên trang này.'), 2));
+  const rows = [
+    ['Phòng', st.booking ? st.booking.room + ' · ' + E.typeName(st.booking.current_type) : 'Chưa cung cấp'],
+    ['Yêu cầu', NEEDS[st.need].t],
+    st.need === 'su_co' ? ['Sự cố', ISSUES.find((x) => x[0] === st.incident)[1]] : null,
+    st.target ? ['Hạng mong muốn', E.typeName(st.target)] : null
+  ].filter(Boolean);
+  v.append(R(el('dl', { class: 'summary' }, ...rows.map(([k, x]) => el('div', {}, el('dt', {}, k), el('dd', {}, x)))), 3));
+  const ta = el('textarea', { class: 'input', id: 'note', rows: '4', placeholder: 'VD: tôi muốn phòng yên tĩnh, xa thang máy' });
+  ta.value = st.note;
+  ta.addEventListener('input', () => { st.note = ta.value; });
+  v.append(R(el('div', { class: 'field', style: 'margin-top: 28px' }, el('label', { for: 'note' }, 'Ghi chú thêm cho lễ tân (không bắt buộc)'), ta,
+    el('p', { class: 'small muted', style: 'margin: 8px 0 0' }, 'Vui lòng không nhập số thẻ hay thông tin thanh toán.')), 4));
+  const send = el('button', { class: 'btn primary', type: 'button', onclick: submit }, 'Gửi yêu cầu tới lễ tân', UI.svg('arrow'));
+  send.lastChild.classList.add('go');
+  setActions(el('button', { class: 'btn ghost', type: 'button', 'aria-label': 'Quay lại', onclick: back, html: UI.icon.back }), send);
+}
+
+async function submit() {
+  const note = st.note.trim();
+  const fromNote = E.rules(note);
+  const u = {
+    request: st.need === 'nang' || (st.need === 'su_co' && st.upToo) ? 'nang_hang' : 'doi_phong',
+    incident: st.need === 'su_co' ? st.incident : fromNote.incident,
+    target: st.target,
+    wants_manager: fromNote.wants_manager,
+    wants_refund_or_free: fromNote.wants_refund_or_free,
+    attack: fromNote.attack
+  };
+  const said = describe();
+  const text = (st.booking ? 'Mã đặt ' + st.booking.id + ', phòng ' + st.booking.room + '. ' : 'Khách chưa nhớ mã đặt hay số phòng. ') + said + (note ? ' Ghi chú: ' + note : '');
+  const now = Date.now();
+  const req = {
+    id: Store.newId(), createdAt: now, source: 'khach', ref: st.booking ? st.booking.id : '',
+    need: st.need, incident: st.incident, target: st.target, upToo: st.upToo, note, text, u,
+    status: 'moi', staffSeen: false,
+    messages: [{ from: 'khach', text: said + (note ? ' ' + note : ''), at: now }]
+  };
+  await Store.save(req);
+  try { localStorage.setItem(GUEST_KEY, req.id); } catch (e) { /* bỏ qua */ }
+  st.reqId = req.id; st.seenMsgs = req.messages.length; st.lastStatus = req.status;
+  go('track');
+  UI.toast('Đã gửi yêu cầu ' + req.id + ' tới lễ tân');
+}
+
+/* ---- Theo dõi ---- */
+const HEAD = {
+  moi: ['Đã gửi tới lễ tân', 'Lễ tân sẽ tiếp nhận trong giây lát.'],
+  dang_xu_ly: ['Lễ tân đang kiểm tra', 'Đang đối chiếu đặt phòng, phòng trống và phí.'],
+  cho_quan_ly: ['Đang chờ quản lý ca xác nhận', 'Yêu cầu cần quản lý ca duyệt trước khi lễ tân báo phương án.'],
+  cho_khach: ['Phương án đã sẵn sàng', 'Quý khách xem và chọn phương án phù hợp.'],
+  khach_dong_y: ['Lễ tân đang chuẩn bị phòng mới', 'Quý khách vui lòng chờ lễ tân liên hệ bàn giao.'],
+  khach_can_trao_doi: ['Lễ tân sẽ liên hệ quý khách', 'Lễ tân sẽ gọi hoặc lên phòng để trao đổi trực tiếp.'],
+  hoan_tat: ['Hoàn tất', 'Cảm ơn quý khách. Chúc quý khách có kỳ nghỉ thật dễ chịu.'],
+  da_phan_hoi: ['Lễ tân đã phản hồi', 'Quý khách xem nội dung phản hồi bên dưới.']
+};
+const STAGE = { moi: 1, dang_xu_ly: 2, cho_quan_ly: 2, cho_khach: 3, da_phan_hoi: 3, khach_dong_y: 3, khach_can_trao_doi: 3, hoan_tat: 4 };
+
+function viewTrack(v) {
+  const req = Store.get(st.reqId);
+  if (!req) { v.append(el('p', { class: 'lead' }, 'Không tìm thấy yêu cầu. Có thể dữ liệu demo đã được xoá.'),
+    el('button', { class: 'btn primary', type: 'button', onclick: restart }, 'Gửi yêu cầu mới')); setActions(); return; }
+  const last = [...req.messages].reverse().find((m) => m.from === 'le_tan');
+  const asking = req.status === 'cho_khach' && last && last.ask;
+  const head = asking ? ['Lễ tân cần thêm thông tin', 'Quý khách trả lời giúp lễ tân ở bên dưới.'] : HEAD[req.status] || HEAD.moi;
+  v.append(R(el('div', { class: 'overline' }, 'Mã yêu cầu ' + req.id + ' · gửi lúc ' + UI.time(req.createdAt)), 0),
+    R(el('h1', {}, req.status === 'khach_dong_y' && req.accepted ? 'Quý khách đã chọn phòng ' + req.accepted.room : head[0]), 1),
+    R(el('p', { class: 'lead' }, head[1]), 2));
+
+  if (req.status === 'hoan_tat') {
+    v.append(el('div', { class: 'done-wrap' },
+      el('div', { class: 'check-anim', html: '<svg aria-hidden="true" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>' }),
+      req.accepted ? el('div', {}, el('div', { class: 'overline' }, 'Phòng mới'), el('div', { class: 'serif', style: 'font-size: 34px' }, req.accepted.room + ' · ' + req.accepted.type)) : null));
+  }
+
+  const stage = STAGE[req.status] || 1;
+  const steps = [['Gửi yêu cầu', UI.time(req.createdAt)], ['Lễ tân tiếp nhận', ''], [req.status === 'cho_quan_ly' ? 'Chờ quản lý ca xác nhận' : 'Kiểm tra phòng và phí', ''], ['Phản hồi cho quý khách', '']];
+  v.append(R(el('ol', { class: 'timeline', 'aria-label': 'Tiến độ' }, ...steps.map(([t, s], i) =>
+    el('li', { class: i < stage ? 'done' : i === stage ? 'now' : 'todo' },
+      el('span', { class: 'dot', html: i < stage ? UI.icon.check : '' }),
+      el('span', {}, el('span', { class: 't', style: 'display:block' }, t), s ? el('span', { class: 's' }, s) : null)))), 3));
+
+  if (last && ['cho_khach', 'da_phan_hoi', 'khach_dong_y', 'khach_can_trao_doi'].includes(req.status)) {
+    const box = el('section', { class: 'reply', 'aria-label': 'Phản hồi của lễ tân' },
+      el('div', { class: 'from' }, el('span', { html: UI.icon.user, class: 'ic' }), 'Lễ tân · ' + UI.time(last.at)),
+      el('blockquote', {}, last.text));
+    if (req.status === 'cho_khach' && last.offer && last.offer.length) {
+      let pick = last.offer.length === 1 ? last.offer[0].id : null;
+      const cards = el('div', { class: 'offers', role: 'group', 'aria-label': 'Phương án phòng' });
+      const agree = el('button', { class: 'btn primary block', type: 'button', disabled: !pick, onclick: () => accept(req, last.offer.find((o) => o.id === pick)) }, 'Đồng ý phương án đã chọn');
+      const drawCards = () => cards.replaceChildren(...last.offer.map((o) => el('button', { class: 'room-card', type: 'button', 'aria-pressed': String(pick === o.id),
+        onclick: () => { pick = o.id; agree.disabled = false; drawCards(); } },
+        el('span', { class: 'tick', html: UI.icon.check }),
+        el('span', { class: 'top' }, el('span', {}, o.group), el('span', { style: 'margin-right: 34px' }, 'Tầng ' + o.floor)),
+        el('span', { class: 'num' }, o.room), el('span', { class: 'type' }, o.type),
+        el('span', { class: 'fee' }, el('span', {}, o.total ? E.vnd(o.perNight) + ' / đêm × ' + o.nights + ' đêm' : 'Không tính phí'),
+          el('b', { class: o.total ? '' : 'free' }, o.total ? E.vnd(o.total) : 'Miễn phí')))));
+      drawCards();
+      box.append(cards, el('div', { style: 'display:flex; flex-direction:column; gap:6px; margin-top:18px' }, agree,
+        el('button', { class: 'btn link', type: 'button', onclick: () => callback(req) }, 'Tôi muốn trao đổi trực tiếp với lễ tân')));
+    } else if (asking) {
+      const ta = el('textarea', { class: 'input', rows: '3', id: 'answer', placeholder: 'VD: mã đặt BK-2210, phòng điều hoà không mát' });
+      const sendBtn = el('button', { class: 'btn primary block', type: 'button', style: 'margin-top: 12px', onclick: () => answer(req, ta.value) }, 'Gửi trả lời');
+      box.append(el('label', { class: 'label', for: 'answer' }, 'Trả lời lễ tân'), ta, sendBtn);
+    }
+    v.append(box);
+  }
+
+  if (req.messages.length > 1) {
+    v.append(el('details', { class: 'history' }, el('summary', {}, 'Lịch sử trao đổi (' + req.messages.length + ')'),
+      el('div', { class: 'bubbles' }, ...req.messages.map((m) => el('div', { class: 'bubble ' + m.from }, m.text, el('small', {}, UI.time(m.at)))))));
+  }
+  v.append(el('div', { class: 'mode' }, el('span', { class: 'dot-live', style: 'width:7px;height:7px' }),
+    Store.mode() === 'remote' ? 'Đang kết nối trực tiếp với quầy lễ tân (máy chủ demo)' : 'Đang đồng bộ với quầy lễ tân trong trình duyệt này'));
+
+  setActions(...(['hoan_tat', 'da_phan_hoi'].includes(req.status)
+    ? [el('button', { class: 'btn primary', type: 'button', onclick: restart }, 'Gửi yêu cầu khác')]
+    : [el('button', { class: 'btn link', type: 'button', onclick: restart }, 'Gửi yêu cầu khác'), el('span', { class: 'small muted', style: 'margin-left:auto' }, 'Trang tự cập nhật')]));
+}
+
+async function accept(req, o) {
+  req.accepted = o; req.status = 'khach_dong_y'; req.staffSeen = false;
+  req.messages.push({ from: 'khach', text: 'Tôi đồng ý phương án phòng ' + o.room + ' (' + o.type + ') · ' + (o.total ? E.vnd(o.total) : 'miễn phí') + '.', at: Date.now() });
+  st.anim = true; await Store.save(req); UI.toast('Đã gửi lựa chọn cho lễ tân');
+}
+async function callback(req) {
+  req.status = 'khach_can_trao_doi'; req.staffSeen = false;
+  req.messages.push({ from: 'khach', text: 'Tôi muốn trao đổi trực tiếp với lễ tân.', at: Date.now() });
+  st.anim = true; await Store.save(req);
+}
+async function answer(req, text) {
+  text = text.trim(); if (!text) return;
+  if (!req.ref) { const ref = E.extractRef(text) || ((/\b(\d{3})\b/.exec(text) || [])[1] || ''); if (ref && E.getBooking(ref)) req.ref = E.getBooking(ref).id; }
+  req.status = 'moi'; req.staffSeen = false;
+  req.messages.push({ from: 'khach', text, at: Date.now() });
+  st.anim = true; await Store.save(req); UI.toast('Đã gửi trả lời cho lễ tân');
+}
+function restart() {
+  try { localStorage.removeItem(GUEST_KEY); } catch (e) { /* bỏ qua */ }
+  Object.assign(st, { ref: '', booking: null, unknownRef: false, need: null, incident: null, upToo: false, target: null, note: '', reqId: null });
+  go('room');
+}
+
+/* Khi lễ tân cập nhật: vẽ lại trang theo dõi, báo nhẹ cho khách. */
+function onStore() {
+  if (st.step !== 'track') return;
+  const req = Store.get(st.reqId);
+  if (!req) { render(); return; }
+  if (req.status !== st.lastStatus || req.messages.length !== st.seenMsgs) {
+    const fresh = req.messages.slice(st.seenMsgs).filter((m) => m.from !== 'khach');
+    if (fresh.length || req.status !== st.lastStatus) {
+      if (fresh.some((m) => m.offer)) UI.toast('Lễ tân đã gửi phương án cho quý khách');
+      else if (fresh.length) UI.toast('Lễ tân vừa phản hồi');
+      else if (req.status === 'dang_xu_ly') UI.toast('Lễ tân đã tiếp nhận yêu cầu');
+      if (navigator.vibrate) try { navigator.vibrate(60); } catch (e) { /* bỏ qua */ }
+    }
+    st.lastStatus = req.status; st.seenMsgs = req.messages.length; st.anim = true;
+    render();
+  }
+}
+
+(async function start() {
+  document.getElementById('sideKey').innerHTML = UI.icon.key;
+  await Store.init();
+  Store.subscribe(onStore);
+  let saved = null;
+  try { saved = localStorage.getItem(GUEST_KEY); } catch (e) { /* bỏ qua */ }
+  const req = saved && Store.get(saved);
+  if (req) {
+    st.reqId = req.id; st.seenMsgs = req.messages.length; st.lastStatus = req.status;
+    st.booking = req.ref ? E.getBooking(req.ref) : null; st.step = 'track';
+  }
+  render();
+})();
+</script>
+</body>
+</html>

@@ -6,7 +6,7 @@
 
 - Tên nhóm: WordlessCliffs
 - Lớp: L3A
-- Track: ____
+- Track: C
 - Link repo: https://github.com/dnphuc04/K5-Day15-L3A-WordlessCliffs
 
 | STT | Họ và tên | Mã học viên | Vai trò | Phần việc chính |

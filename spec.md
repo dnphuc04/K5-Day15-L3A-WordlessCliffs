@@ -105,7 +105,7 @@ Các lớp lần lượt là nguồn sự thật, thiếu thông tin, thẩm quy
 - CP3: bộ câu thử mở rộng lên **24 câu** (7 thường, 14 khó, 3 từ chối; 13/24 từ review thật), không sửa 14 câu cũ. Với 24 câu, ngưỡng 80% tương ứng ≥ 20/24.
 - **Lượt 1** (`run-2@20261127-222834`, gpt-5.4-mini): **24/24 (100%)**, `phi_chenh_dung` 17/17, tu_choi 3/3 → **đạt chuẩn**. Điểm yếu thấy khi chấm (không làm trượt câu nào) ở [eval/report.md](eval/report.md) §2.
 - **Bàn giao của Khôi:** Đã chấm đủ 24 câu và ghi kết quả. Kiểm lại bằng `python run.py score eval/run-2.csv`. [CSV lượt 1](eval/run-2.csv) và [hồ sơ đánh giá](eval/README.md).
-- **Phúc:** Đã quay video demo terminal 30 giây với model thật cho hai ca độc lập (BK-2210 và B10). Link nộp đang chờ tải lên và kiểm tra quyền xem.
+- **Phúc:** Đã quay video demo terminal 30 giây với model thật cho hai ca độc lập (BK-2210 và B10). [Video demo CP3 trên Google Drive](https://drive.google.com/file/d/1kVuZKAv0g62L3iFqIC_E0f_LMN7fBBgK/view?usp=sharing).
 
 ## §8. Chi phí khi dùng thật *(guide 4.2)*
 - Persona + giá: `cost/personas.yaml` · lượt mô phỏng: `cost/simulate-__.csv` (__ phiên)

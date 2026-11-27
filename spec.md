@@ -21,7 +21,7 @@ Tên PMS, ảnh màn hình và chính sách cụ thể tại từng khách sạn
 - **Việc cần làm:** Báo phương án và phí khi khách đang lưu trú xin đổi hoặc nâng hạng phòng.
 - **Pain ghi nhận:** Lễ tân phải tra nhiều nguồn hoặc hỏi thêm người trước khi trả lời. P1 chờ xác nhận phòng đã dọn, P2 đối chiếu giá từng đêm, P3 chờ quản lý duyệt và P5 tìm phương án khi hết phòng.
 - **Bằng chứng:** **2/3 người có kinh nghiệm lễ tân** (P1, P3) và **2/2 trưởng ca** (P2, P5) kể được ca trong tháng qua phải tra ít nhất hai nguồn hoặc hỏi thêm người. P4 từng làm lễ tân ở homestay và kể ca cũ hơn một tháng, nên không tính vào số gặp pain theo tiêu chí. **2/5** ghi nhận quầy từng báo sai phí hoặc tình trạng phòng trong tháng. Báo cáo có **7 trích dẫn hoặc ví dụ có nguồn**. Khảo sát khách có **18/19 phản hồi hợp lệ** và dùng để đối chiếu. [Tổng hợp bằng chứng](evidence/summary.md)
-- **Thông tin phỏng vấn:** Hưng (TV2) hỏi và ghi chép cả 5 cuộc phỏng vấn online tại mốc 17:30 ngày 27/11/2026 (giờ Việt Nam). Thời điểm ca xảy ra được ghi tương đối, chẳng hạn tuần trước, và thời lượng xử lý được ghi theo khoảng. [Biên bản P1–P5](evidence/interviews/)
+- **Thông tin phỏng vấn:** Hưng (TV2) hỏi và ghi chép cả 5 cuộc phỏng vấn ngày 27/11/2026 (giờ Việt Nam). P1 và P3 lúc 17:30, P2 lúc 18:00, P5 lúc 18:40, đều online. P4 lúc 19:00, qua điện thoại. Thời điểm ca xảy ra được ghi tương đối, chẳng hạn tuần trước, và thời lượng xử lý được ghi theo khoảng. [Biên bản P1–P5](evidence/interviews/)
 
 ## §2. Impact & quyết định chọn *(guide 1.3)*
 
@@ -137,6 +137,7 @@ Các lớp lần lượt là nguồn sự thật, thiếu thông tin, thẩm quy
 | Thứ Sáu 27/11 tối, trước `run-2` | `eval/benchmark.csv`: thêm B15–B24 (10 câu: đổi ngang, 4 nâng hạng có phí, sự cố thiết bị, hết phòng, xếp sai hạng, xin miễn phí, đòi hoàn tiền), tổng 24 câu. Không sửa, không xoá B01–B14 | Đạt yêu cầu CP3 20–30 câu; phủ thêm lớp 1, 3, 4 ở §5 (`eval/README.md` mục 2). `input` khoá từ `run-2`, sau đó chỉ sửa `expected` / `pass_criterion` |
 | Thứ Sáu 27/11 đêm, sau `run-2` | Chấm lượt 1 (`eval/run-2.csv`: chỉ điền `pass`, `ghi_chu`); ghi kết quả vào `eval/README.md` mục 5, `eval/report.md` §1–§2; thêm `docs/runbook-chay-lai.md` | Lượt 1 24/24; điểm yếu B15, B22, B13, B07 ghi ở `eval/report.md` §2 làm ứng viên cải tiến cho lượt 2 |
 | Trước khi nộp CP3 | Hoàn thiện §0–§7 theo bản chạy thật, bổ sung kịch bản, luồng trải nghiệm và số liệu đã chấm | Đối chiếu bộ 24 câu và lượt 1; đối chiếu bằng chứng và impact với biên bản P1–P5 |
+| Thứ Bảy 28/11 | §1 và `evidence/summary.md`: sửa giờ và hình thức phỏng vấn theo đầu biên bản (cả 5 buổi ngày 27/11; P2 18:00, P5 18:40, P4 gọi điện 19:00); đưa đầu biên bản P4 về cùng mẫu P1–P5; không đổi số bằng chứng | Biên bản P2, P4, P5 đã cập nhật giờ (commit `c0ba7cb`), bản cũ ghi cả 5 buổi online lúc 17:30 |
 
 **Sau CP4 (đến 23:59 Thứ Bảy 28/11)** (sửa theo góp ý — không sửa chuẩn "đạt", câu thử, số bằng chứng, kết quả các lượt đã chạy)
 

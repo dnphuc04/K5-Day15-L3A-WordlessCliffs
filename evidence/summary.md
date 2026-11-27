@@ -13,6 +13,12 @@
 
 ## 2. Số chính
 
+**Tiến độ CP2 · 27/11/2026**
+
+- Đã hỏi **3 lễ tân** về ca đổi hoặc nâng hạng phòng của khách đang lưu trú. Kết quả phỏng vấn đang được tổng hợp.
+- [Form lễ tân](survey/questions.md) có **3 phản hồi thô**. [Form khách](survey/questions-khach.md) có **19 phản hồi thô**. Số phản hồi chưa lọc hợp lệ và được theo dõi riêng với số người đã hỏi.
+
+
 - Đào data: __/__ (__%) …
 - Phỏng vấn: __/3 người gặp *(n nhỏ không ghi %)* · số lần / tháng: P1 __, P2 __, P3 __ · mỗi lần mất __–__ phút
 - Khảo sát: n = __ · __/__ (__%) …

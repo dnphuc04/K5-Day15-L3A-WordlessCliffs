@@ -17,6 +17,31 @@
 | Nhãn | thật (công khai) |
 | Giới hạn | Hai khách sạn ở Bồ Đào Nha (City Hotel, Resort Hotel), giai đoạn 2015-2017. Hạng phòng chỉ là chữ cái ẩn danh (A…P), không có tên hạng và không có bảng giá niêm yết theo hạng. Không có yêu cầu đổi / nâng hạng khi khách đang ở: khác hạng chủ yếu do khách sạn tự xếp phòng, chưa chắc khách yêu cầu. Cột `adr` có giá trị 0. **Không** suy ra "khách hay xin đổi phòng" từ bộ này |
 
+**Các trường dữ liệu** *(tên cột lấy từ file thật; phần nghĩa nhóm nên đối chiếu lại với tab Data trên Kaggle)*
+
+| Nhóm | Cột | Ý nghĩa | Dùng trong dự án? |
+|---|---|---|---|
+| Khách sạn | `hotel` | City Hotel hoặc Resort Hotel | không |
+| Trạng thái | `is_canceled` | 1 nếu đặt phòng bị hủy | không |
+| | `reservation_status`, `reservation_status_date` | Trạng thái cuối (Check-Out, Canceled, No-Show) và ngày cập nhật | không |
+| Thời gian | `lead_time` | Số ngày từ lúc đặt đến lúc đến | không |
+| | `arrival_date_year`, `arrival_date_month`, `arrival_date_week_number`, `arrival_date_day_of_month` | Ngày đến | không |
+| | `stays_in_weekend_nights`, `stays_in_week_nights` | Số đêm cuối tuần / trong tuần | không |
+| Người ở | `adults`, `children`, `babies` | Số người lớn, trẻ em, em bé | không |
+| | `country` | Quốc gia (mã ISO) | không |
+| | `is_repeated_guest`, `previous_cancellations`, `previous_bookings_not_canceled` | Khách quen, số lần hủy / đặt thành công trước đó | không |
+| | `customer_type` | Contract, Group, Transient, Transient-party | không |
+| Kênh đặt | `market_segment`, `distribution_channel` | Phân khúc thị trường, kênh phân phối | không |
+| | `agent`, `company` | Mã đại lý / công ty (ẩn danh, `NULL` nếu không có) | không |
+| **Phòng** | **`reserved_room_type`** | Hạng phòng **đã đặt** (chữ cái ẩn danh A, B, C…) | **có** — đếm tỉ lệ khác hạng (12,5%) |
+| | **`assigned_room_type`** | Hạng phòng **được xếp** thật | **có** — như trên |
+| | `booking_changes` | Số lần thay đổi đặt phòng | không |
+| Giá, dịch vụ | `adr` | Giá trung bình mỗi đêm (có dòng bằng 0) | chưa — giá trong `data/hotel.json` là tự dựng, **chưa** hiệu chỉnh từ cột này |
+| | `meal`, `deposit_type`, `days_in_waiting_list` | Gói ăn, loại đặt cọc, số ngày chờ xác nhận | không |
+| | `required_car_parking_spaces`, `total_of_special_requests` | Số chỗ đỗ xe, số yêu cầu đặc biệt | không |
+
+Tóm lại, bộ này mới đóng góp **một con số tham khảo** (tỉ lệ khác hạng); 30/32 cột chưa dùng.
+
 ## Dataset 2 · 515K Hotel Reviews Data in Europe (Kaggle)
 
 | | |
@@ -28,6 +53,27 @@
 | Phiên bản / ngày lấy | Bản đăng Kaggle cập nhật lần cuối 2017-08-21 · tải ngày 2026-11-27 |
 | Nhãn | thật (công khai), bản dùng trong benchmark là **bản viết lại** |
 | Giới hạn | Review bằng tiếng Anh, khách sạn châu Âu; chỉ review tiêu cực dài 20-90 từ nên lệch về phàn nàn rõ ràng. Regex rộng: nhóm "upgrade" lẫn nhiều review khách được tặng nâng hạng. Review cho biết khách phàn nàn gì, không cho biết lễ tân xử lý thế nào hay mất bao lâu. Con số 3.072 chỉ là kết quả lọc từ khoá, **không phải số liệu bằng chứng pain** |
+
+**Các trường dữ liệu** *(tên cột lấy từ file thật; phần nghĩa nhóm nên đối chiếu lại với tab Data trên Kaggle)*
+
+| Nhóm | Cột | Ý nghĩa | Dùng trong dự án? |
+|---|---|---|---|
+| Khách sạn | `Hotel_Name`, `Hotel_Address`, `lat`, `lng` | Tên, địa chỉ, tọa độ khách sạn | không (tên khách sạn bị bỏ khi viết lại câu thử) |
+| | `Average_Score` | Điểm trung bình của khách sạn | không |
+| | `Total_Number_of_Reviews` | Tổng số review của khách sạn | không |
+| | `Additional_Number_of_Scoring` | Số lượt chấm điểm không kèm review | không |
+| Review | **`Negative_Review`** | Nội dung phần tiêu cực (đã bỏ dấu câu); ô trống ghi là "No Negative" | **có** — lọc và làm nguồn câu thử |
+| | `Review_Total_Negative_Word_Counts` | Số từ phần tiêu cực | không (tự đếm lại để lọc 20-90 từ) |
+| | `Positive_Review` | Nội dung phần tích cực; ô trống ghi là "No Positive" | không |
+| | `Review_Total_Positive_Word_Counts` | Số từ phần tích cực | không |
+| | `Review_Date`, `days_since_review` | Ngày viết review, số ngày kể từ đó | không |
+| Người viết | `Reviewer_Nationality` | Quốc tịch người viết | không |
+| | `Total_Number_of_Reviews_Reviewer_Has_Given` | Số review người này đã viết | không |
+| | `Reviewer_Score` | Điểm người viết chấm (thang 10) | có — chép vào file ứng viên để tham khảo |
+| | `Tags` | Danh sách nhãn: loại chuyến đi, nhóm khách, loại phòng, số đêm | có — chép vào file ứng viên để tham khảo |
+| (không phải cột) | `file_line` | Số thứ tự dòng trong file CSV, dùng làm mã truy nguồn ở cột `source` của `eval/benchmark.csv` | **có** |
+
+Lưu ý khi đọc: văn bản review có khoảng trắng đầu, không có dấu câu; phần trống là chuỗi "No Negative" / "No Positive", không phải ô rỗng.
 
 ## Dataset 3 · Dữ liệu khách sạn giả (nhóm tự dựng)
 

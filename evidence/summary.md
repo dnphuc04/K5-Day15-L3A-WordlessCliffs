@@ -66,14 +66,14 @@ Hệ quả cho bản chạy thử (đề xuất ghi `spec.md` §10, báo Tiến 
 - Một số ca nâng hạng **có phí** cũng cần quản lý duyệt trước khi báo giá (P3) — P3 giả lập đang cho lễ tân tự duyệt.
 - Nhánh **"hết phòng → 1–2 phương án kèm khác biệt và phí"** được P5 xác nhận là cần.
 
-Điều vẫn chưa biết: chính sách P1, P2, P4 (đổi cùng hạng, sự cố, miễn phí) ở nơi người được hỏi làm — chưa hỏi, cả 5 người không nhận hỏi thêm; thời gian thật mới chỉ là ước lượng theo khoảng; ngày giờ và hình thức từng buổi phỏng vấn chưa ghi; form khách còn thiếu 1 phản hồi để đạt ngưỡng 20; P4 (homestay, không có PMS) nằm ngoài đối tượng chính.
+Điều vẫn chưa biết: chính sách P1, P2, P4 (đổi cùng hạng, sự cố, miễn phí) ở nơi người được hỏi làm — chưa hỏi, cả 5 người không nhận hỏi thêm; thời gian thật mới chỉ là ước lượng theo khoảng; ngày giờ phỏng vấn P1–P5 được bổ sung theo mốc Hưng xác nhận (17:30 ngày 27/11/2026, giờ Việt Nam), cả 5 buổi thực hiện online; form khách còn thiếu 1 phản hồi để đạt ngưỡng 20; P4 (homestay, không có PMS) nằm ngoài đối tượng chính.
 
-## Lịch hẹn (chỉ ghi vai và giờ, không tên)
+## Lịch phỏng vấn (chỉ ghi vai và thời gian, không tên)
 
-| Vai | Giờ hẹn | Đã xong? |
+| Vai | Ngày giờ phỏng vấn (giờ Việt Nam) | Đã xong? |
 |---|---|---|
-| Lễ tân · KS ≤3 sao (P1) | __ | ☑ |
-| Trưởng ca · KS 4–5 sao (P2) | __ | ☑ |
-| Lễ tân · Resort (P3) | __ | ☑ |
-| Từng làm lễ tân · Homestay (P4) | __ | ☑ |
-| Trưởng ca · KS 4–5 sao (P5) | __ | ☑ |
+| Lễ tân · KS ≤3 sao (P1) | 27/11/2026 17:30 | ☑ |
+| Trưởng ca · KS 4–5 sao (P2) | 27/11/2026 17:30 | ☑ |
+| Lễ tân · Resort (P3) | 27/11/2026 17:30 | ☑ |
+| Từng làm lễ tân · Homestay (P4) | 27/11/2026 17:30 | ☑ |
+| Trưởng ca · KS 4–5 sao (P5) | 27/11/2026 17:30 | ☑ |

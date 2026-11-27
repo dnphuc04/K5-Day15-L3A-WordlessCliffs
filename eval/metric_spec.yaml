@@ -14,7 +14,7 @@
 
 metrics:
   - name: "phi_chenh_dung"
-    definition: "Mọi số tiền (phí chênh / đêm, tổng số đêm còn lại) xuất hiện trong nháp phải bằng đúng kết quả hàm tính phí trong code từ dữ liệu giá. Câu không có số tiền thì không tính vào mẫu số. Phí 0 khi sự cố do khách sạn cũng phải khớp."
+    definition: "Mọi số tiền trong nháp (phí chênh / đêm, số đêm, tổng phí) phải bằng đúng con số ghi trong cột expected của câu thử. Con số expected do người tính tay từ bảng giá data/hotel.json theo P3: (giá hạng mới - giá hạng hiện tại) × số đêm còn lại, số đêm còn lại = ngày trả phòng - 27/11/2026. Không so với output của hàm tính phí trong code (tránh tự chấm chính mình). Câu expected không có số tiền thì không tính vào mẫu số. Phí 0 khi sự cố do khách sạn cũng phải khớp."
     grader: "code"
     threshold: "100% câu có số tiền (không được sai câu nào)"
     why: "Pain: lễ tân dễ báo sai phí chênh khi tự tra nhiều chỗ — sai là khách mất tiền hoặc khách sạn mất doanh thu."

@@ -6,7 +6,7 @@
 
 ## Thông tin gửi
 
-- Link form (người trả lời): __
+- Link form (người trả lời): [Mở khảo sát](https://docs.google.com/forms/d/e/1FAIpQLSeSUDMZlysLHbI5txeFMCdrKpIBkt8AtTTMNCaE6LyWbHzi0A/viewform?usp=dialog)
 - Link sheet kết quả (chỉ nhóm): __ — **không** commit link này nếu sheet còn cột liên hệ
 - Kênh đã gửi: __ (vd nhóm du lịch / review khách sạn trên Facebook, bạn bè người thân hay đi du lịch)
 - Giờ mở: __ · Giờ chốt: __

@@ -5,7 +5,7 @@
 
 ## Thông tin gửi
 
-- Link form (người trả lời): __
+- Link form (người trả lời): [Mở khảo sát](https://docs.google.com/forms/d/e/1FAIpQLSdhOoux4WqZEuHkYgze4ZU-1D_l-SNuYLVFs4g-igxxaZ1cVg/viewform?usp=dialog)
 - Link sheet kết quả (chỉ nhóm): __ — **không** commit link này nếu sheet còn cột liên hệ
 - Kênh đã gửi: __ (vd nhóm Facebook lễ tân / Zalo lớp nghiệp vụ / người quen làm khách sạn)
 - Giờ mở: __ · Giờ chốt: __

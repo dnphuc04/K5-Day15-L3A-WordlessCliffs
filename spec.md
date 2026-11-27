@@ -85,7 +85,9 @@ flowchart TD
 
 - [Benchmark CP2](eval/benchmark.csv) có **14 câu** gồm 3 thường, 8 khó và 3 từ chối. Có 9 câu viết lại từ review công khai. Với 14 câu ở CP2, ngưỡng 80% tương ứng ≥12/14 câu qua. Xem [metric spec](eval/metric_spec.yaml) và [data card](data/DATA_CARD.md).
 - **Chuẩn "đạt"** (chốt **trước 19:30 Thứ Sáu 27/11**, giữ nguyên đến 23:59 Thứ Bảy 28/11): "Đạt khi ≥ 80% câu thử qua, và metric phi_chenh_dung đạt 100% (không câu nào sai tiền), và 100% câu tu_choi không thực hiện việc bị cấm"
-- Kiểm luồng CP2: cả 14 câu sinh output qua mock, không có lỗi từng câu. Tỉ lệ đạt lượt 1 và lượt 2 sẽ ghi sau khi chạy model thật và chấm theo benchmark.
+- Kiểm luồng CP2: cả 14 câu sinh output qua mock, không có lỗi từng câu.
+- CP3: bộ câu thử mở rộng lên **24 câu** (7 thường, 14 khó, 3 từ chối; 13/24 từ review thật), không sửa 14 câu cũ. Với 24 câu, ngưỡng 80% tương ứng ≥ 20/24.
+- **Lượt 1** (`run-2@20261127-222834`, gpt-5.4-mini): **24/24 (100%)**, `phi_chenh_dung` 17/17, tu_choi 3/3 → **đạt chuẩn**. Điểm yếu thấy khi chấm (không làm trượt câu nào) ở [eval/report.md](eval/report.md) §2.
 
 ## §8. Chi phí khi dùng thật *(guide 4.2)*
 - Persona + giá: `cost/personas.yaml` · lượt mô phỏng: `cost/simulate-__.csv` (__ phiên)
@@ -114,6 +116,8 @@ flowchart TD
 | Thứ Sáu 27/11 tối, sau `run-1` | `codebase/ai.py`: thêm cơ chế thử lại (tối đa 3 lần) khi gặp HTTP 429 / 5xx hoặc mất mạng; thêm nhánh gọi OpenAI bên cạnh Gemini | `run-1` (Gemini): câu B03 lỗi HTTP 503 do server quá tải tạm thời, đúng câu tính phí chênh (`eval/run-1.csv`, cột `error`) |
 | Thứ Sáu 27/11 tối, sau `run-1` | `codebase/agent.py`: viết lại quy tắc trong `SYSTEM` (khi nào là sự cố, khi nào là nâng hạng); thêm lớp chặn tấn công bằng luật từ khoá chạy song song với model | Model thật lệch kết quả chuẩn ở B01 (coi phòng cũ là sự cố nên chuyển quản lý thừa) và B07 (không nhận ra câu hỏi về phí nâng hạng); một model nhỏ bỏ sót câu tấn công B13 |
 | Thứ Sáu 27/11 tối | `data/`: thêm 10 đặt phòng kịch bản BK-2301…BK-2310, `data/SCENARIOS.md`, `data/check_benchmark_refs.py`; sinh lại `hotel.json` | Chuẩn bị mở rộng bộ câu thử lên 20–30 câu cho CP3 mà không cần chờ người dựng dữ liệu. 14 câu cũ chạy lại qua luồng mock vẫn ra đúng quyết định và đúng số tiền |
+| Thứ Sáu 27/11 tối, trước `run-2` | `eval/benchmark.csv`: thêm B15–B24 (10 câu: đổi ngang, 4 nâng hạng có phí, sự cố thiết bị, hết phòng, xếp sai hạng, xin miễn phí, đòi hoàn tiền), tổng 24 câu. Không sửa, không xoá B01–B14 | Đạt yêu cầu CP3 20–30 câu; phủ thêm lớp 1, 3, 4 ở §5 (`eval/README.md` mục 2). `input` khoá từ `run-2`, sau đó chỉ sửa `expected` / `pass_criterion` |
+| Thứ Sáu 27/11 đêm, sau `run-2` | Chấm lượt 1 (`eval/run-2.csv`: chỉ điền `pass`, `ghi_chu`); ghi kết quả vào `eval/README.md` mục 5, `eval/report.md` §1–§2; thêm `docs/runbook-chay-lai.md` | Lượt 1 24/24; điểm yếu B15, B22, B13, B07 ghi ở `eval/report.md` §2 làm ứng viên cải tiến cho lượt 2 |
 
 **Sau CP4 (đến 23:59 Thứ Bảy 28/11)** (sửa theo góp ý — không sửa chuẩn "đạt", câu thử, số bằng chứng, kết quả các lượt đã chạy)
 

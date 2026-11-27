@@ -11,10 +11,10 @@
 
 | STT | Họ và tên | Mã học viên | Vai trò | Phần việc chính |
 |---|---|---|---|---|
-| 1 | Đồng Ngọc Phúc | 2A202603399 | Đội trưởng | CP3 — Rà bằng chứng cùng Hưng, viết impact và hoàn thiện spec §0–§7, quay và kiểm tra video demo 30 giây, tổng hợp và nộp CP3. |
-| 2 | Nguyễn Việt Hưng | 2A202603411 | Thành viên | CP3 — Cùng Phúc ghi biên bản P1–P3, tổng hợp x/3 người gặp pain, tần suất, thời gian và ≥5 trích dẫn hoặc ví dụ có nguồn. |
-| 3 | Nguyễn Trần Tiến | 2A202603504 | Thành viên | CP3 — Cùng Khôi nối model thật, kiểm token và trace bằng eval --try, chạy toàn bộ benchmark và bàn giao CSV lượt 1 cùng run ID. |
-| 4 | Nguyễn Trần Anh Khôi | 2A202603422 | Thành viên | CP3 — Cùng Tiến bổ sung ít nhất 6 câu để đủ 20–30 câu, rà đáp án, chấm toàn bộ lượt 1 theo metric CP2 và ghi kết quả score. |
+| 1 | Đồng Ngọc Phúc | 2A202603399 | Đội trưởng | CP4 — Hoàn thiện spec §8–§10, làm 8 slide và xuất demo-slides.pdf ở gốc repo, tập demo, kiểm video dự phòng, xác nhận phòng và nộp CP4. |
+| 2 | Nguyễn Việt Hưng | 2A202603411 | Thành viên | CP4 — Xây ít nhất 3 persona từ phỏng vấn, cùng Tiến tính chi phí theo 3 kịch bản và so sánh 2 mức model, bàn giao số liệu và trích dẫn cho slide. |
+| 3 | Nguyễn Trần Tiến | 2A202603504 | Thành viên | CP4 — Cùng Khôi chọn và triển khai một cải tiến, chạy lại 24 câu với gpt-5.4-mini, lưu CSV, trace và run ID, chạy mô phỏng thật ít nhất 50 phiên. |
+| 4 | Nguyễn Trần Anh Khôi | 2A202603422 | Thành viên | CP4 — Cùng Tiến chốt cải tiến, chấm lượt 2 theo benchmark và metric đã chốt, cập nhật hồ sơ và báo cáo đánh giá, bàn giao kết quả cho spec và phần chi phí. |
 
 **Quy tắc điền**
 - **Lớp:** `L3A` hoặc `L3B`. **Track:** một chữ `A` (EdTech), `B` (Y tế), `C` (Du lịch), `D` (Thương mại điện tử), `E` (Tài chính) hoặc `F` (Làn khác). **Link repo:** link GitHub công khai của nhóm.

@@ -6,18 +6,27 @@
 - Phục vụ khach.html / nhan-vien.html trong thư mục này.
 - Lưu yêu cầu trong bộ nhớ (tắt máy chủ là mất) để điện thoại của khách và máy lễ tân cùng mạng Wi-Fi thấy nhau.
 - POST /api/answer chạy codebase/agent.py answer() thật (theo cấu hình model trong .env) để lễ tân đối chiếu.
-Chỉ dùng trong mạng nội bộ khi demo: không có đăng nhập, không mã hoá.
+Chế độ Render yêu cầu mật khẩu; HTTPS do Render cung cấp.
 """
+import base64
+import hmac
 import json
 import os
 import socket
 import sys
 import threading
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
+from urllib.parse import urlsplit
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 CODEBASE = os.path.join(ROOT, "codebase")
+RENDER = os.environ.get("RENDER") == "true"
+DEMO_PASSWORD = os.environ.get("DEMO_PASSWORD", "")
+PUBLIC_ORIGIN = os.environ.get("RENDER_EXTERNAL_URL", "").rstrip("/")
+PUBLIC_ASSETS = {"/", "/khach.html", "/nhan-vien.html", "/le-tan.html",
+                 "/data.js", "/store.js", "/engine.js", "/theme.css"}
+MAX_BODY = 32 * 1024
 
 _requests = {}
 _lock = threading.Lock()
@@ -37,6 +46,49 @@ def _load_agent():
 class Handler(SimpleHTTPRequestHandler):
     def __init__(self, *a, **kw):
         super().__init__(*a, directory=HERE, **kw)
+
+    def parse_request(self):
+        if not super().parse_request():
+            return False
+        if not RENDER:
+            return True
+
+        if self.command == "GET" and self.path == "/healthz":
+            self._json(200, {"ok": True})
+            return False
+
+        expected = b"Basic " + base64.b64encode(f"demo:{DEMO_PASSWORD}".encode())
+        if not hmac.compare_digest(self.headers.get("Authorization", "").encode(), expected):
+            self.send_response(401)
+            self.send_header("WWW-Authenticate", 'Basic realm="Wordless Cliffs", charset="UTF-8"')
+            self.send_header("Content-Length", "0")
+            self.end_headers()
+            return False
+
+        self.path = urlsplit(self.path).path
+        if self.command in {"PUT", "POST", "DELETE"}:
+            if self.headers.get("Origin") != PUBLIC_ORIGIN:
+                self._json(403, {"error": "origin không hợp lệ"})
+                return False
+            try:
+                length = int(self.headers.get("Content-Length", "0"))
+            except ValueError:
+                length = -1
+            if not 0 <= length <= MAX_BODY or self.headers.get("Transfer-Encoding"):
+                self._json(413, {"error": "kích thước yêu cầu không hợp lệ"})
+                return False
+            allowed = (
+                (self.command == "PUT" and self.path.startswith("/api/requests/"))
+                or (self.command == "POST" and self.path == "/api/answer")
+                or (self.command == "DELETE" and self.path == "/api/requests")
+            )
+        elif self.command == "GET":
+            allowed = self.path in PUBLIC_ASSETS or self.path in {"/api/ping", "/api/requests"}
+        else:
+            allowed = self.command == "HEAD" and self.path in PUBLIC_ASSETS - {"/"}
+        if not allowed:
+            self._json(404, {"error": "not found"})
+        return allowed
 
     def log_message(self, fmt, *args):  # gọn log: bỏ các lần thăm dò định kỳ
         if "/api/requests" in (args[0] if args else "") and "GET" in (args[0] if args else ""):
@@ -80,7 +132,11 @@ class Handler(SimpleHTTPRequestHandler):
             rid = str(req.get("id", ""))[:20]
             if not rid:
                 raise ValueError("thiếu id")
+            if RENDER and type(req.get("createdAt")) not in (int, float):
+                raise ValueError("createdAt không hợp lệ")
             with _lock:
+                if RENDER and rid not in _requests and len(_requests) >= 100:
+                    return self._json(409, {"error": "đã đủ 100 yêu cầu demo"})
                 _requests[rid] = req
             return self._json(200, {"ok": True})
         except Exception as e:  # dữ liệu hỏng từ trình duyệt
@@ -108,6 +164,8 @@ class Handler(SimpleHTTPRequestHandler):
                 ", ".join(s["models"]) or "—", s["model_calls"], s["tool_calls"], s["tokens_in"], s["tokens_out"])
             return self._json(200, {"output": out.get("output", "") if isinstance(out, dict) else str(out), "summary": summary})
         except Exception as e:  # lỗi model / cấu hình
+            if RENDER:
+                return self._json(502, {"error": "Không chạy được agent"})
             return self._json(200, {"error": "%s: %s" % (type(e).__name__, e)})
 
 
@@ -128,7 +186,9 @@ def main():
             stream.reconfigure(encoding="utf-8", errors="replace")
         except Exception:
             pass
-    port = int(sys.argv[1]) if len(sys.argv) > 1 else 8000
+    if RENDER and (len(DEMO_PASSWORD) < 16 or not PUBLIC_ORIGIN.startswith("https://")):
+        raise SystemExit("Render yêu cầu DEMO_PASSWORD từ 16 ký tự và RENDER_EXTERNAL_URL dùng HTTPS.")
+    port = int(os.environ["PORT"]) if RENDER else int(sys.argv[1]) if len(sys.argv) > 1 else 8000
     srv = ThreadingHTTPServer(("0.0.0.0", port), Handler)
     ip = _lan_ip()
     print("Máy chủ demo đang chạy. Ctrl+C để dừng.")

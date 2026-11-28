@@ -20,6 +20,12 @@ python docs/ui-prototype/serve.py
 
 Ở chế độ này, trang lễ tân có thêm nút **Chạy agent.py** để đối chiếu với `codebase/agent.py` thật (theo cấu hình model trong `.env`). Máy chủ không có đăng nhập; chỉ dùng trong mạng nội bộ khi demo.
 
+## Demo cho nhóm trên Render
+
+Tạo Blueprint từ nhánh `main` với `render.yaml`. Render tạo một Web Service Free và sinh mật khẩu `DEMO_PASSWORD` trong mục Environment. Tên đăng nhập chung là `demo`. Gửi mật khẩu riêng cho thành viên cùng hai đường dẫn `/khach.html` và `/nhan-vien.html` trên tên miền HTTPS của dịch vụ.
+
+Blueprint dùng model giả để nhóm thử quy trình mà không tốn phí API. Hai trang dùng chung dữ liệu trong RAM. Dữ liệu sẽ mất khi dịch vụ ngủ hoặc khởi động lại. Chỉ dùng dữ liệu giả lập.
+
 ## Dữ liệu và luật
 
 - `data.js` sinh từ `data/hotel.json`, `data/policy.json` (dữ liệu giả lập) bằng `python docs/ui-prototype/build_data.py`. Sinh lại khi dữ liệu đổi.

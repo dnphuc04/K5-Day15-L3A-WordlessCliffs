@@ -54,7 +54,7 @@ flowchart TD
     F --> G["Lễ tân duyệt hoặc sửa · quản lý ca quyết ngoại lệ"]
 ```
 
-**Workflow cố định:** Model phân loại yêu cầu. Ở CP3, lượt chính thức dùng `gpt-5.4-mini` để phân loại. Luật từ khóa dự phòng khi phản hồi không có JSON hợp lệ và tham gia chặn yêu cầu giả danh hoặc bỏ qua quy trình. Python chọn cách xử lý, tính tiền và dựng nháp theo chính sách. Các bước có thứ tự cố định và chỉ dùng công cụ đọc nên nhóm có thể kiểm lại từng quyết định qua trace.
+**Workflow cố định:** Model phân loại yêu cầu. Ở CP3, lượt chính thức dùng `gpt-5.4-mini` để phân loại. Luật từ khóa chặn yêu cầu giả danh hoặc bỏ qua quy trình trước khi gọi model. Chế độ giả dùng luật từ khóa. Với model thật, Python kiểm đúng sáu trường JSON, kiểu cờ và danh mục giá trị. Phản hồi sai cấu trúc dừng trước bước tra cứu và yêu cầu lễ tân kiểm tra. Python chọn cách xử lý, tính tiền và dựng nháp theo chính sách. Các bước có thứ tự cố định và chỉ dùng công cụ đọc nên nhóm có thể kiểm lại từng quyết định qua trace.
 
 | Công cụ | Input | Output | Tác động ra ngoài |
 |---|---|---|---|
@@ -149,6 +149,7 @@ AI tạo đề xuất và bản nháp. Chương trình chỉ có công cụ đ�
 | Thứ Bảy 28/11 | §1 và `evidence/summary.md`: sửa giờ và hình thức phỏng vấn theo đầu biên bản (cả 5 buổi ngày 27/11; P2 18:00, P5 18:40, P4 gọi điện 19:00); đưa đầu biên bản P4 về cùng mẫu P1–P5; không đổi số bằng chứng | Biên bản P2, P4, P5 đã cập nhật giờ (commit `c0ba7cb`), bản cũ ghi cả 5 buổi online lúc 17:30 |
 | 28/11 trước CP4 | Làm rõ phí đổi cùng hạng và phí nâng hạng khi có sự cố trong Python và UI | B07 dễ gây hiểu nhầm. Lượt kiểm tra `run-3@20261128-124304` rồi lượt 2 `run-4@20261128-124419` trên cùng bộ câu thử. B06 vẫn đạt nhưng diễn giải dài hơn. |
 | 28/11 trước CP4 | Mô phỏng 50 phiên thật, hoàn thiện §8–§10 và xuất slide CP4 | `simulate-2@20261128-124507` dùng tỷ lệ đạt lượt 2. Chi phí Nano là dự phóng giá. |
+| 28/11 · 14:23 | Siết system prompt và kiểm cấu trúc phản hồi model, chặn theo luật trước khi gọi model | Lời khách là dữ liệu chưa xác thực, phản hồi sai cấu trúc chuyển lễ tân kiểm tra. Áp dụng cho luồng Python và nút đối chiếu agent.py. |
 
 **Sau CP4 (đến 23:59 Thứ Bảy 28/11)** (sửa theo góp ý — không sửa chuẩn "đạt", câu thử, số bằng chứng, kết quả các lượt đã chạy)
 

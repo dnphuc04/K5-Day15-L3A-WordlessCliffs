@@ -187,8 +187,11 @@ def answer(text: str) -> dict:
             rooms = find_vacant_rooms(base_type, True, booking["room"])
             lines += ["Phòng thay thế đề xuất: " + room_line(r, calc_fee(base_type, base_type, n)) for r in rooms] \
                 or ["Hết phòng thay thế cùng hạng."]
+            if want_up:
+                topics.append("su_co_nang_hang")
+                lines.append("Đổi cùng hạng do sự cố có phí 0 đ theo P2. Nếu khách chọn hạng cao hơn, áp dụng phí chênh theo P3; miễn phần chênh cần quản lý duyệt theo P4.")
     elif hotel_fault:
-        topics = ["su_co", "su_co_nang_hang"] if (want_up and target) else ["su_co"]
+        topics = ["su_co", "su_co_nang_hang"] if want_up else ["su_co"]
         label = "CẦN QUẢN LÝ DUYỆT"
         reasons.append("sự cố do khách sạn (xác nhận lỗi và phần miễn phí)")
         if u["wants_manager"]:
@@ -205,7 +208,7 @@ def answer(text: str) -> dict:
             lines += ["Phương án B — nâng lên %s: " % type_name(target) + room_line(r, fee) for r in ups] \
                 or ["Phương án B — hết phòng hạng %s." % type_name(target)]
         elif want_up:
-            lines.append("Sự cố do khách sạn nên không tính phí nâng hạng cho khách; chỉ đổi cùng hạng.")
+            lines.append("Đổi sang phòng cùng hạng đã đặt có phí 0 đ theo P2, chờ quản lý xác nhận. Nếu khách chọn hạng cao hơn, áp dụng phí chênh theo P3; mọi miễn phí phần chênh cần quản lý duyệt theo P4.")
         if mismatch:
             lines.append("Phát hiện: phòng đang ở (%s) khác hạng đã đặt (%s)." % (type_name(cur), type_name(booked)))
     elif want_up and target and type_rank(target) > type_rank(cur):

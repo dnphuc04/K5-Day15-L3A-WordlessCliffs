@@ -107,24 +107,33 @@ Các lớp lần lượt là nguồn sự thật, thiếu thông tin, thẩm quy
 - **Bàn giao của Khôi:** Đã chấm đủ 24 câu và ghi kết quả. Kiểm lại bằng `python run.py score eval/run-2.csv`. [CSV lượt 1](eval/run-2.csv) và [hồ sơ đánh giá](eval/README.md).
 - **Phúc:** Đã quay video demo terminal 30 giây với model thật cho hai ca độc lập (BK-2210 và B10). [Video demo CP3 trên Google Drive](https://drive.google.com/file/d/1kVuZKAv0g62L3iFqIC_E0f_LMN7fBBgK/view?usp=sharing).
 
+- **Lượt 2 CP4** (`run-4@20261128-124419`, gpt-5.4-mini): **24/24 (100%)**, phí 17/17, từ chối 3/3. B07 giải thích rõ đổi cùng hạng phí 0 theo P2 và nâng hạng có phí theo P3. [CSV lượt 2](eval/run-4.csv) · [Báo cáo](eval/report.md)
+
 ## §8. Chi phí khi dùng thật *(guide 4.2)*
-- Persona + giá: `cost/personas.yaml` · lượt mô phỏng: `cost/simulate-__.csv` (__ phiên)
-- Chi phí / task thành công: __ (model __) · __ (model __)
-- Chi phí / tháng ở quy mô thật: thấp __ · cơ sở __ · cao __ → chi tiết `cost/cost-estimate.md`
-- So với impact / người / tháng (§2): đáng làm không, vì sao:
+
+- [Persona và giá](cost/personas.yaml) có ba kiểu người dùng. [Mô phỏng](cost/simulate-2-summary.md) chạy 50 phiên thật với `gpt-5.4-mini`, seed 42, 0 lỗi.
+- **Chi phí mỗi task thành công:** **$0.00051** với Mini, dùng **24/24** của lượt 2 cùng model. Nano chỉ dự phóng chi phí token, chưa đo tỷ lệ đạt lượt 2.
+- **Chi phí mỗi tháng:** Mini **$0.0140 / $0.0349 / $0.0699** cho 2 / 5 / 10 người. Nano dự phóng **$0.0038 / $0.0094 / $0.0189**. Quy mô người dùng là giả định triển khai thử. [Báo cáo chi phí](cost/cost-estimate.md)
+- **So với impact:** Chi phí Mini ở kịch bản cơ sở **$0.0070/người/tháng**. Hai lễ tân P1 và P3 ước tính xử lý trung bình 150–330 phút/người/tháng. Cần đo phần thời gian thực sự tiết kiệm trước khi kết luận.
 
 ## §9. Rủi ro & an toàn
-- Dữ liệu: đã ẩn danh gì, không thu gì, không đưa gì vào model gói miễn phí:
-- AI **không được** làm gì kể cả khi người dùng yêu cầu:
-- Ai có thể bị hại nếu AI sai, và nhóm chặn thế nào:
+
+| Rủi ro | Ai chịu ảnh hưởng | Kiểm soát trong bản demo |
+|---|---|---|
+| Báo sai phòng hoặc phí | Khách, lễ tân | Đọc booking, phòng và chính sách từ dữ liệu giả lập. Python tính phí. Lễ tân đối chiếu tình trạng phòng thực tế và sửa bản nháp trước khi gửi. |
+| Dùng nhầm quyền duyệt | Khách, quản lý ca | Ca bồi thường, hoàn tiền, miễn phí phần chênh hoặc xác nhận sự cố chuyển quản lý theo chính sách mẫu. Yêu cầu giả danh và bỏ qua duyệt bị từ chối. |
+| Dữ liệu khách hoặc API key bị lộ | Khách, nhóm | Luồng thử dùng mã đặt giả lập. Biên bản dùng mã P1–P5, khảo sát xuất bản đã bỏ trường liên hệ. Key nằm trong `.env` đã bỏ qua bởi Git. |
+| Giao diện demo bị truy cập ngoài nhóm | Khách, lễ tân, nhóm | Backend mẫu dùng nội bộ. Khi demo, giữ máy chủ trên máy trình bày và tránh nhập dữ liệu khách thật. |
+
+AI tạo đề xuất và bản nháp. Chương trình chỉ có công cụ đọc và tính toán. Lễ tân duyệt nội dung và thực hiện thao tác nghiệp vụ trên hệ thống chính thức. Quản lý ca quyết định ngoại lệ. Nhánh duyệt quản lý trên giao diện là mô phỏng.
 
 ## §10. Phân công & changelog
-- **Đồng Ngọc Phúc:** chốt lát cắt, cập nhật canvas, viết §4 và §7, tổng hợp và nộp CP2.
-- **Nguyễn Việt Hưng:** phỏng vấn, tổng hợp bằng chứng pain và bàn giao tình huống cho Khôi.
-- **Nguyễn Trần Tiến:** dựng dữ liệu giả lập, viết data card và triển khai workflow mock.
-- **Nguyễn Trần Anh Khôi:** viết benchmark, metric, cùng Tiến kiểm luồng và cùng Phúc đối chiếu chuẩn đạt.
-- Cặp phối hợp CP2: Tiến–Khôi thống nhất dữ liệu đầu vào và kết quả mong đợi. Phúc–Hưng cập nhật canvas theo bằng chứng có nguồn.
-- Dùng Codex để rà repo, xử lý dấu xung đột trong canvas và soạn §4, §7. Nhóm rà lại luồng, dữ liệu và tiêu chí chấm trước khi nộp. Xem [khai báo dùng AI](docs/ai-usage.md).
+
+- **Phúc:** tổng hợp spec CP4, slide và demo, phụ trách nộp.
+- **Hưng:** bằng chứng phỏng vấn, persona và giả định quy mô.
+- **Tiến:** cải tiến workflow, lượt chạy thật và mô phỏng.
+- **Khôi:** đánh giá, tiêu chí chấm và báo cáo. Xem [phân công CP4](TEAMS.md).
+- Nhóm dùng chung máy của Phúc cho CP4. Codex hỗ trợ triển khai, chạy kiểm thử, rà đầu ra đánh giá và soạn tài liệu. Xem [khai báo dùng AI](docs/ai-usage.md).
 - Nhật ký thay đổi — **mọi thay đổi sau CP2 19:30 Thứ Sáu 27/11 phải có dòng ở đây**:
 
 **CP2 → CP4** (vd thu hẹp lát cắt, hỏi thêm người dùng, lần cải tiến trước lượt 2)
@@ -138,6 +147,8 @@ Các lớp lần lượt là nguồn sự thật, thiếu thông tin, thẩm quy
 | Thứ Sáu 27/11 đêm, sau `run-2` | Chấm lượt 1 (`eval/run-2.csv`: chỉ điền `pass`, `ghi_chu`); ghi kết quả vào `eval/README.md` mục 5, `eval/report.md` §1–§2; thêm `docs/runbook-chay-lai.md` | Lượt 1 24/24; điểm yếu B15, B22, B13, B07 ghi ở `eval/report.md` §2 làm ứng viên cải tiến cho lượt 2 |
 | Trước khi nộp CP3 | Hoàn thiện §0–§7 theo bản chạy thật, bổ sung kịch bản, luồng trải nghiệm và số liệu đã chấm | Đối chiếu bộ 24 câu và lượt 1; đối chiếu bằng chứng và impact với biên bản P1–P5 |
 | Thứ Bảy 28/11 | §1 và `evidence/summary.md`: sửa giờ và hình thức phỏng vấn theo đầu biên bản (cả 5 buổi ngày 27/11; P2 18:00, P5 18:40, P4 gọi điện 19:00); đưa đầu biên bản P4 về cùng mẫu P1–P5; không đổi số bằng chứng | Biên bản P2, P4, P5 đã cập nhật giờ (commit `c0ba7cb`), bản cũ ghi cả 5 buổi online lúc 17:30 |
+| 28/11 trước CP4 | Làm rõ phí đổi cùng hạng và phí nâng hạng khi có sự cố trong Python và UI | B07 dễ gây hiểu nhầm. Lượt kiểm tra `run-3@20261128-124304` rồi lượt 2 `run-4@20261128-124419` trên cùng bộ câu thử. B06 vẫn đạt nhưng diễn giải dài hơn. |
+| 28/11 trước CP4 | Mô phỏng 50 phiên thật, hoàn thiện §8–§10 và xuất slide CP4 | `simulate-2@20261128-124507` dùng tỷ lệ đạt lượt 2. Chi phí Nano là dự phóng giá. |
 
 **Sau CP4 (đến 23:59 Thứ Bảy 28/11)** (sửa theo góp ý — không sửa chuẩn "đạt", câu thử, số bằng chứng, kết quả các lượt đã chạy)
 

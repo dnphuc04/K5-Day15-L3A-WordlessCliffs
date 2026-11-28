@@ -17,3 +17,7 @@ README của nhóm có mục "Dùng AI vào việc gì" (2–3 dòng, bắt bu�
 | Canvas và spec CP2 | Codex | Rà repo, hợp nhất canvas, soạn sơ đồ và tiêu chí đạt | Phúc rà lát cắt và luồng. Khôi đối chiếu tiêu chí với benchmark và metric. | Đồng Ngọc Phúc |
 
 **Không dùng AI để:** tạo người được phỏng vấn, trích dẫn, câu trả lời khảo sát; sửa kết quả các lượt đã chạy (`eval/run-*.csv`, `cost/simulate-*.csv`, `traces/`).
+
+| Việc CP4 | Công cụ | Phần hỗ trợ | Trạng thái rà |
+|---|---|---|---|
+| Cải tiến B07, lượt 2, mô phỏng và slide | Codex | Chỉnh diễn giải phí theo chính sách, chạy model thật, rà kết quả theo tiêu chí cố định, tổng hợp báo cáo và dựng slide | Đầu ra CP4 chạy trên máy Phúc. Codex chấm thử lượt 2, nhóm chưa xác nhận rà chéo lượt này. |

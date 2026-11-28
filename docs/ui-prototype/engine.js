@@ -179,8 +179,12 @@
         rooms.forEach((r) => opt('Phòng thay thế', r, calcFee(baseType, baseType, n), 'Cùng hạng đã đặt, chờ quản lý duyệt', true));
         if (!rooms.length) notices.push('Hết phòng thay thế cùng hạng.');
       }
+      if (hotelFault && wantUp) {
+        topics.push('su_co_nang_hang');
+        notices.push('Đổi cùng hạng do sự cố có phí 0 đ theo P2. Nếu khách chọn hạng cao hơn, áp dụng phí chênh theo P3; miễn phần chênh cần quản lý duyệt theo P4.');
+      }
     } else if (hotelFault) {
-      topics = wantUp && target ? ['su_co', 'su_co_nang_hang'] : ['su_co'];
+      topics = wantUp ? ['su_co', 'su_co_nang_hang'] : ['su_co'];
       kind = 'manager'; label = 'Cần quản lý duyệt';
       title = (INCIDENT[u.incident] && u.incident !== 'none' ? INCIDENT[u.incident] : ticket ? 'Phòng có phiếu sự cố' : 'Xếp sai hạng') + ' · đổi phòng';
       reasons.push('Sự cố do khách sạn: quản lý ca xác nhận lỗi và phần miễn phí.');
@@ -193,7 +197,7 @@
         ups.forEach((r) => opt('B · nâng hạng', r, calcFee(baseType, target, n), 'Có phí theo P3; miễn phần chênh chỉ khi quản lý duyệt'));
         if (!ups.length) notices.push('Phương án B — hết phòng hạng ' + typeName(target) + '.');
       } else if (wantUp) {
-        notices.push('Sự cố do khách sạn nên không tính phí nâng hạng cho khách; chỉ đổi cùng hạng.');
+        notices.push('Đổi cùng hạng đã đặt có phí 0 đ theo P2, chờ quản lý xác nhận. Nếu khách chọn hạng cao hơn, áp dụng phí chênh theo P3; miễn phần chênh cần quản lý duyệt theo P4.');
       }
       if (mismatch) notices.push('Phát hiện: phòng đang ở (' + typeName(cur) + ') khác hạng đã đặt (' + typeName(booked) + ').');
     } else if (wantUp && target && rank(target) > rank(cur)) {

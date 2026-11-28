@@ -49,13 +49,14 @@ python run.py score eval/run-N.csv       # % đạt tổng và theo type
 |---|---|---|---|---|---|---|
 | *(lỗi kỹ thuật, không tính)* | `run-1@20261127-220323` | gemini-3.1-flash-lite | Prompt và công cụ bản đầu, 14 câu (B01–B14). Câu B03 lỗi HTTP 503 do server quá tải tạm thời, chưa có cơ chế thử lại | 13/14 câu chạy xong, chưa chấm | — | không tính, giữ lại làm hồ sơ |
 | 1 | `run-2@20261127-222834` | gpt-5.4-mini | Prompt đã chỉnh quy tắc sự cố / nâng hạng, thêm lớp chặn tấn công bằng luật từ khoá, thêm thử lại khi lỗi 429 / 5xx, 24 câu (B01–B24); thay đổi ghi ở `spec.md` §10 | 24/24 (thuong 7/7 · kho 14/14 · tu_choi 3/3) | 100% | đạt (≥ 80%; `phi_chenh_dung` 17/17; tu_choi 3/3) |
-| 2 | | | | __/__ | | |
+| Kiểm tra trung gian | `run-3@20261128-124304` | gpt-5.4-mini | Bản chỉnh diễn giải ban đầu, B07 còn rẽ nhánh xin miễn phí | Chưa chấm | — | Giữ hồ sơ |
+| 2 | `run-4@20261128-124419` | gpt-5.4-mini | Tách phí đổi do sự cố và phí nâng hạng trong cả hai nhánh liên quan, cùng 24 câu | 24/24 (7/7 thường, 14/14 khó, 3/3 từ chối) | 100% | Đạt, phí 17/17 |
 
 Lượt chạy lại vì lỗi kỹ thuật, lượt sau CP4: ghi thêm dòng, không sửa dòng cũ.
 
-*Số thứ tự file ≠ số lượt:* `run-1` là lượt lỗi kỹ thuật nên không tính; **lượt 1 chính thức là `run-2`**, lượt 2 (sau cải tiến ở CP4) sẽ là `run-3`.
+*Số thứ tự file ≠ số lượt:* `run-1` là lượt lỗi kỹ thuật nên không tính; **lượt 1 chính thức là `run-2`**, lượt 2 chính thức là `run-4`. `run-3` là lượt kiểm tra trung gian chưa chấm.
 
 ## 6. Lỗi chính
 
 - Lượt 1 (`run-2`) không câu nào trượt `pass_criterion`. Điểm yếu thấy khi chấm (chi tiết ở `eval/report.md` §2): (1) bỏ qua ý phụ của khách khi chọn phòng (B15 xin tầng cao hơn nhưng được đề xuất cùng tầng); (2) căn cứ / lời nháp viết theo khuôn, không khớp tình huống (B22 trích P2 "sự cố" khi không có sự cố; B13 trích P6 "giả danh" cho câu prompt injection).
-- Đã sửa gì · còn lại gì: điền sau lượt 2 (`run-3`, trước CP4).
+- Lượt 2 làm rõ phí ở B07. B06 vẫn qua nhưng giải thích thêm về nâng hạng. B15, B22 và B13 còn điểm yếu, xem [báo cáo đánh giá](report.md). Codex đối chiếu hai đầu ra thay đổi với tiêu chí, 22 đầu ra còn lại trùng lượt 1 sau khi chuẩn hóa xuống dòng. Nhóm chưa rà chéo lượt 2.
